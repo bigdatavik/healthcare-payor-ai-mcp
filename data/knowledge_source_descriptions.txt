@@ -1,0 +1,169 @@
+KNOWLEDGE SOURCE DESCRIPTIONS FOR HEALTHCARE PAYOR AGENT
+========================================================
+
+CUSTOMER SERVICE COMMUNICATIONS KNOWLEDGE SOURCE
+================================================
+
+CONTENT OVERVIEW:
+This knowledge source contains real customer service interactions between healthcare payor members and customer service representatives. It includes phone call transcripts, chat logs, and email correspondence that capture the complete member experience from initial contact through resolution.
+
+DETAILED CONTENT DESCRIPTION:
+
+1. COMMUNICATION TYPES:
+   - Phone Call Transcripts: Full conversational exchanges between members and agents
+   - Chat Logs: Real-time text-based customer service interactions
+   - Email Correspondence: Formal written communications including appeals and complaints
+
+2. MEMBER INFORMATION CAPTURED:
+   - Member IDs (M123456789, M987654321, M456789123, M789123456, M321654987)
+   - Contact dates and interaction duration
+   - Member satisfaction scores (1-5 scale)
+   - Sentiment analysis (frustrated, confused, satisfied, urgent)
+
+3. ISSUE CATEGORIES:
+   - Billing Problems: Incorrect procedure codes, denied claims, billing errors
+   - Coverage Issues: Out-of-network problems, benefit coverage questions
+   - Authorization Problems: Missing prior authorizations, urgent care exceptions
+   - Prescription Issues: Formulary changes, medication coverage, cost concerns
+   - Provider Services: Finding new doctors, appointment scheduling, network access
+
+4. SPECIFIC PROBLEMS DOCUMENTED:
+   - Procedure code 99213 vs 99396 billing confusion
+   - Out-of-network MRI coverage with $1,000 deductible
+   - Surgery authorization denials requiring appeals
+   - Insulin formulary changes affecting medication costs
+   - Provider search and appointment scheduling assistance
+
+5. RESOLUTION PATTERNS:
+   - Successful billing corrections and resubmissions
+   - Appeal processes for denied authorizations
+   - Alternative medication recommendations
+   - Provider referrals and appointment coordination
+   - Information provision and education
+
+6. SENTIMENT AND SATISFACTION:
+   - Frustrated members with billing issues (satisfaction: 2-4)
+   - Confused members needing education (satisfaction: 3-4)
+   - Satisfied members with successful resolutions (satisfaction: 4-5)
+   - Urgent appeals requiring immediate attention
+
+WHEN TO USE THIS DATA SOURCE:
+- Member calls about billing problems or claim denials
+- Questions about coverage for specific procedures or medications
+- Out-of-network coverage issues or network provider searches
+- Prescription coverage problems or formulary changes
+- Authorization questions or prior approval processes
+- Member satisfaction analysis and service quality assessment
+- Training needs identification for customer service agents
+- Process improvement opportunities in member services
+
+KEY ENTITIES EXTRACTABLE:
+- Member IDs, claim numbers, procedure codes (CPT, ICD-10)
+- Provider names, facility names, medication names
+- Dollar amounts, dates, authorization numbers
+- Medical conditions, symptoms, treatment plans
+- Insurance plan details, coverage levels, deductibles
+
+========================================================
+
+PRIOR AUTHORIZATION DOCUMENTS KNOWLEDGE SOURCE
+==============================================
+
+CONTENT OVERVIEW:
+This knowledge source contains detailed prior authorization requests from healthcare providers for various medical procedures. It includes comprehensive medical documentation, clinical reasoning, and approval/denial decisions with detailed explanations.
+
+DETAILED CONTENT DESCRIPTION:
+
+1. AUTHORIZATION TYPES:
+   - Routine preventive visits and annual checkups
+   - Surgical procedures (laparoscopic, arthroscopic)
+   - Emergency and urgent care authorizations
+   - Diagnostic procedures and imaging studies
+   - Specialized medical consultations
+
+2. PROCEDURE INFORMATION:
+   - CPT codes: 99213 (office visits), 47562 (cholecystectomy), 29881 (knee arthroscopy), 99291 (critical care)
+   - ICD-10 diagnosis codes: Z00.00, I10, K80.20, K80.21, M23.30, M23.31, I21.9, I25.10, M79.3, M25.561
+   - Detailed procedure descriptions and medical necessity justifications
+   - Urgency levels: routine, urgent, emergent
+
+3. CLINICAL DOCUMENTATION:
+   - Comprehensive medical histories and current symptoms
+   - Physical examination findings and vital signs
+   - Laboratory results and diagnostic imaging reports
+   - Previous treatment attempts and conservative management
+   - Provider assessments and clinical reasoning
+
+4. MEDICAL NECESSITY CRITERIA:
+   - Detailed explanations of why procedures are medically necessary
+   - Documentation of failed conservative treatments
+   - Impact on patient quality of life and work ability
+   - Risk of complications without treatment
+   - Standard of care justifications
+
+5. APPROVAL/DENIAL DECISIONS:
+   - Approved authorizations with approval reasoning
+   - Denied authorizations with specific denial reasons
+   - Medical director and reviewer comments
+   - Appeal processes and reconsideration criteria
+
+6. SUPPORTING DOCUMENTATION:
+   - Lab results, imaging studies, and diagnostic tests
+   - Previous medical records and treatment history
+   - Specialist consultations and second opinions
+   - Functional capacity evaluations
+   - Pain diaries and symptom documentation
+
+7. PROVIDER INFORMATION:
+   - Provider names, specialties, and credentials
+   - Facility information and network status
+   - Provider performance and approval patterns
+   - Clinical expertise and experience levels
+
+WHEN TO USE THIS DATA SOURCE:
+- Questions about specific procedure coverage and medical necessity
+- Authorization approval/denial patterns and trends
+- Provider performance and approval rates
+- Clinical criteria for procedure approvals
+- Appeal processes and reconsideration procedures
+- Medical director decisions and reasoning
+- Quality assurance and utilization review
+- Provider education and training needs
+
+KEY ENTITIES EXTRACTABLE:
+- Procedure codes (CPT), diagnosis codes (ICD-10)
+- Provider names, specialties, and credentials
+- Medical conditions, symptoms, and treatments
+- Laboratory values, vital signs, and test results
+- Approval/denial reasons and clinical criteria
+- Member demographics and medical histories
+- Insurance coverage levels and benefit structures
+
+CLINICAL INSIGHTS AVAILABLE:
+- Common approval criteria for different procedure types
+- Typical denial reasons and documentation gaps
+- Provider performance patterns and approval rates
+- Clinical evidence requirements for different specialties
+- Urgency assessment and emergency care protocols
+- Conservative treatment requirements before surgery
+- Quality metrics and outcome measurements
+
+========================================================
+
+CROSS-DOCUMENT RELATIONSHIPS
+============================
+
+MEMBER JOURNEY CONNECTIONS:
+- Member M123456789: Billing issue (CS001) + Preventive visit authorization (PA001)
+- Member M987654321: Out-of-network MRI issue (CS002) + Gallbladder surgery authorization (PA002)
+- Member M456789123: Surgery appeal email (CS003) + Denied knee surgery authorization (PA003)
+
+INTEGRATED USE CASES:
+- Complete member experience analysis from service call to authorization outcome
+- Correlation between member satisfaction and authorization approval rates
+- Provider performance impact on member experience
+- Process improvement opportunities across the member journey
+- Predictive modeling for authorization success based on member history
+
+========================================================
+

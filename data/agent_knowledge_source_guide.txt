@@ -1,0 +1,12 @@
+AGENT KNOWLEDGE SOURCE GUIDE
+============================
+
+CUSTOMER SERVICE COMMUNICATIONS:
+Contains member service interactions (phone calls, chats, emails) with billing issues, coverage problems, prescription concerns, and provider searches. Includes member satisfaction scores, sentiment analysis, and resolution outcomes. Use for member experience questions, billing problems, coverage issues, and satisfaction analysis.
+
+PRIOR AUTHORIZATION DOCUMENTS:
+Contains detailed medical authorization requests with clinical documentation, procedure codes (CPT), diagnosis codes (ICD-10), medical necessity justifications, and approval/denial decisions. Includes provider information, urgency levels, and supporting documentation. Use for clinical questions, authorization patterns, procedure coverage, and medical necessity criteria.
+
+CROSS-REFERENCE CAPABILITY:
+Both sources contain overlapping member IDs (M123456789, M987654321, M456789123, M789123456, M321654987) enabling complete member journey analysis from service calls to authorization outcomes.
+

@@ -1,0 +1,164 @@
+PRIOR AUTHORIZATION DOCUMENT #PA001
+==========================================
+Member ID: M123456789
+Provider: Dr. Sarah Martinez, MD (PROV_001)
+Date Submitted: January 15, 2024
+Procedure Code: CPT_99213
+Procedure Description: Office visit, established patient, expanded problem focused
+Diagnosis Codes: ICD10_Z00.00, ICD10_I10
+Diagnosis Descriptions: 
+- Encounter for general adult medical examination without abnormal findings
+- Essential hypertension
+Urgency Level: Routine
+Status: APPROVED
+Approval Date: January 16, 2024
+Approver: Dr. Johnson, Medical Director
+
+MEDICAL NECESSITY:
+Patient presents for annual preventive visit. Comprehensive history reveals well-controlled hypertension on current medication. No new symptoms or concerns. Physical examination unremarkable. Patient requests routine blood work and mammogram as part of preventive care. This visit is medically necessary for preventive health maintenance and chronic disease management.
+
+CLINICAL NOTES:
+Patient is a 45-year-old female with history of hypertension, well-controlled on lisinopril 10mg daily. Blood pressure today 128/82. No chest pain, shortness of breath, or other cardiovascular symptoms. Patient reports good medication compliance. Family history significant for maternal MI at age 60. Social history: non-smoker, occasional alcohol use. Physical exam: BMI 28, heart rate 72, no murmurs, lungs clear, no peripheral edema. Plan: Continue current antihypertensive therapy, annual labs including lipid panel, mammogram due, return in 6 months.
+
+SUPPORTING DOCUMENTATION:
+- Lab results from 6 months ago showing normal lipid panel
+- Previous EKG showing normal sinus rhythm
+- Blood pressure log showing good control
+
+APPROVAL NOTES:
+Standard preventive visit approved. All criteria met for preventive care coverage.
+
+==========================================
+
+PRIOR AUTHORIZATION DOCUMENT #PA002
+==========================================
+Member ID: M987654321
+Provider: Dr. Michael Chen, MD (PROV_002)
+Date Submitted: January 16, 2024
+Procedure Code: CPT_47562
+Procedure Description: Laparoscopy, surgical; cholecystectomy
+Diagnosis Codes: ICD10_K80.20, ICD10_K80.21
+Diagnosis Descriptions:
+- Calculus of gallbladder without obstruction
+- Calculus of gallbladder with obstruction
+Urgency Level: Urgent
+Status: APPROVED
+Approval Date: January 17, 2024
+Approver: Dr. Williams, Surgical Review
+
+MEDICAL NECESSITY:
+Patient presents with recurrent episodes of severe right upper quadrant pain consistent with biliary colic. Ultrasound confirms multiple gallstones with gallbladder wall thickening. Patient has failed conservative management with dietary modifications. Symptoms are significantly impacting quality of life and ability to work. Laparoscopic cholecystectomy is the standard of care for symptomatic cholelithiasis and is medically necessary to prevent complications including acute cholecystitis, cholangitis, and pancreatitis.
+
+CLINICAL NOTES:
+Patient is a 38-year-old female with 6-month history of recurrent right upper quadrant pain, typically occurring 1-2 hours after meals, lasting 2-4 hours. Pain is severe (8/10) and associated with nausea and vomiting. No fever or jaundice. Physical exam reveals positive Murphy's sign. Ultrasound shows multiple gallstones, largest 1.2cm, with gallbladder wall thickening. No ductal dilatation. Patient has tried low-fat diet without improvement. Pain episodes are increasing in frequency and severity, now occurring 2-3 times per week. Patient works as a teacher and pain episodes are affecting her ability to work effectively.
+
+SUPPORTING DOCUMENTATION:
+- Abdominal ultrasound report showing multiple gallstones
+- Lab results showing normal liver function tests
+- Dietary consultation notes
+- Pain diary documenting frequency and severity
+
+APPROVAL NOTES:
+Laparoscopic cholecystectomy approved. Clear medical necessity documented. Standard procedure for symptomatic cholelithiasis.
+
+==========================================
+
+PRIOR AUTHORIZATION DOCUMENT #PA003
+==========================================
+Member ID: M456789123
+Provider: Dr. Jennifer Lee, MD (PROV_003)
+Date Submitted: January 17, 2024
+Procedure Code: CPT_29881
+Procedure Description: Arthroscopy, knee, surgical; with meniscectomy (medial OR lateral)
+Diagnosis Codes: ICD10_M23.30, ICD10_M23.31
+Diagnosis Descriptions:
+- Other meniscus derangements, unspecified lateral meniscus
+- Other meniscus derangements, unspecified medial meniscus
+Urgency Level: Routine
+Status: DENIED
+Denial Date: January 18, 2024
+Denial Reason: Insufficient documentation of failed conservative treatment
+
+MEDICAL NECESSITY:
+Patient has failed 6 months of conservative treatment including physical therapy, NSAIDs, and activity modification. MRI confirms complex tear of medial meniscus with mechanical symptoms including locking and catching. Patient is unable to participate in normal activities and work duties due to knee pain and instability. Arthroscopic meniscectomy is medically necessary to restore function and prevent further joint damage.
+
+CLINICAL NOTES:
+Patient is a 42-year-old construction worker with 8-month history of left knee pain following work-related injury. Initial treatment included rest, ice, NSAIDs, and physical therapy. Patient completed 12 weeks of supervised PT with minimal improvement. Current symptoms include severe pain with walking, climbing stairs, and squatting. Patient reports episodes of knee 'giving way' and occasional locking. Physical exam reveals positive McMurray test, joint line tenderness, and mild effusion. MRI shows complex tear of posterior horn of medial meniscus with associated bone marrow edema. Patient has been unable to return to full work duties for 3 months.
+
+SUPPORTING DOCUMENTATION:
+- MRI report showing complex medial meniscus tear
+- Physical therapy notes documenting 12 weeks of treatment
+- Work injury report
+- Functional capacity evaluation
+
+DENIAL NOTES:
+While MRI shows meniscal tear, documentation does not clearly demonstrate adequate trial of conservative treatment. Patient may benefit from additional physical therapy and activity modification before surgical intervention.
+
+==========================================
+
+PRIOR AUTHORIZATION DOCUMENT #PA004
+==========================================
+Member ID: M789123456
+Provider: Dr. Robert Kim, MD (PROV_004)
+Date Submitted: January 18, 2024
+Procedure Code: CPT_99291
+Procedure Description: Critical care, evaluation and management of the critically ill or critically injured patient; first 30-74 minutes
+Diagnosis Codes: ICD10_I21.9, ICD10_I25.10
+Diagnosis Descriptions:
+- Acute myocardial infarction, unspecified
+- Atherosclerotic heart disease of native coronary artery without angina pectoris
+Urgency Level: Emergent
+Status: APPROVED
+Approval Date: January 18, 2024
+Approver: Dr. Smith, Emergency Medicine Director
+
+MEDICAL NECESSITY:
+Patient presented to ED with acute chest pain, elevated troponins, and EKG changes consistent with acute myocardial infarction. Required immediate critical care management including cardiac monitoring, IV medications, and preparation for emergency cardiac catheterization. Patient was hemodynamically unstable and required intensive monitoring and intervention.
+
+CLINICAL NOTES:
+Patient is a 65-year-old male with history of hypertension and diabetes who presented to ED with acute onset of severe chest pain radiating to left arm, associated with diaphoresis and nausea. Initial vital signs: BP 180/110, HR 110, RR 24, O2 sat 94% on room air. EKG showed ST elevation in leads II, III, aVF consistent with inferior STEMI. Troponin I elevated at 15.2 (normal <0.04). Patient was immediately started on dual antiplatelet therapy, beta-blocker, and ACE inhibitor. Cardiac catheterization lab was activated. Patient required continuous cardiac monitoring and IV access for emergency medications.
+
+SUPPORTING DOCUMENTATION:
+- EKG showing ST elevation
+- Troponin lab results showing elevated levels
+- Chest X-ray
+- Cardiac catheterization report
+
+APPROVAL NOTES:
+Critical care services approved for acute STEMI. Standard of care for acute myocardial infarction requiring intensive monitoring and intervention.
+
+==========================================
+
+PRIOR AUTHORIZATION DOCUMENT #PA005
+==========================================
+Member ID: M321654987
+Provider: Dr. Lisa Thompson, MD (PROV_005)
+Date Submitted: January 19, 2024
+Procedure Code: CPT_99213
+Procedure Description: Office or other outpatient visit for the evaluation and management of an established patient
+Diagnosis Codes: ICD10_M79.3, ICD10_M25.561
+Diagnosis Descriptions:
+- Panniculitis, unspecified
+- Pain in right knee
+Urgency Level: Urgent
+Status: APPROVED
+Approval Date: January 19, 2024
+Approver: Dr. Brown, Internal Medicine
+
+MEDICAL NECESSITY:
+Patient presents with new onset of right knee pain and swelling following recent travel. Physical examination reveals joint effusion and limited range of motion. Patient reports inability to bear weight on affected leg. Evaluation is necessary to rule out infectious or inflammatory causes and determine appropriate treatment. This visit is medically necessary for diagnostic evaluation and treatment planning.
+
+CLINICAL NOTES:
+Patient is a 28-year-old female who developed acute onset of right knee pain and swelling 3 days ago following a 12-hour flight. Pain is severe (9/10) and constant, worse with movement. Patient reports fever and chills. Physical exam reveals significant joint effusion, warmth, and tenderness. Range of motion is severely limited due to pain. Patient is unable to bear weight. Differential diagnosis includes septic arthritis, gout, or reactive arthritis. Laboratory evaluation and joint aspiration may be necessary.
+
+SUPPORTING DOCUMENTATION:
+- Recent travel history
+- Temperature log showing fever
+- Previous joint problems
+- Medication list
+
+APPROVAL NOTES:
+Office visit approved for acute joint symptoms. Appropriate evaluation for potential infectious or inflammatory joint disease.
+
+==========================================
+

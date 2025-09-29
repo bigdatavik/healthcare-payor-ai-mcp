@@ -21,6 +21,9 @@ import mlflow
 # Enhanced features imports
 from genie_multiagent_tool import create_genie_tool
 
+# Knowledge Assistant imports
+from openai import OpenAI
+
 # Configure Streamlit page
 st.set_page_config(
     page_title="Healthcare Payor AI System - Enhanced",
@@ -181,6 +184,20 @@ class EnhancedHealthcarePayorAgent:
             
             # Enhanced tools loaded
             
+            # Add Knowledge Assistant tool for unstructured text analysis
+            try:
+                knowledge_tool = self._create_knowledge_assistant_tool()
+                if knowledge_tool:
+                    self.tools.append(knowledge_tool)
+                    st.success("✅ Loaded Knowledge Assistant tool")
+                    self._log_audit_event("system", "knowledge_tool_loaded", "success")
+                else:
+                    st.warning("⚠️ Knowledge Assistant tool not available")
+                    self._log_audit_event("system", "knowledge_tool_loaded", "warning", "Tool creation failed")
+            except Exception as e:
+                st.warning(f"⚠️ Knowledge Assistant tool not available: {e}")
+                self._log_audit_event("system", "knowledge_tool_loaded", "warning", str(e))
+            
         except Exception as e:
             st.error(f"❌ Failed to setup basic UC tools: {e}")
             st.error(f"Make sure basic UC functions are created in {self.catalog}.{self.schema}")
@@ -199,6 +216,82 @@ class EnhancedHealthcarePayorAgent:
         except Exception as genie_error:
             st.warning(f"⚠️ Genie tool not available: {genie_error}")
             st.info("💡 Running without Genie tool - data analysis features may be limited")
+    
+    def _create_knowledge_assistant_tool(self):
+        """Create Knowledge Assistant tool for unstructured text analysis"""
+        from langchain.tools import BaseTool
+        
+        class KnowledgeAssistantTool(BaseTool):
+            name: str = "knowledge_assistant"
+            description: str = """Use this tool to analyze unstructured text, documents, complaints, and knowledge base content. 
+            This tool is specifically designed for:
+            - Analyzing member complaints and feedback
+            - Searching through policy documents and guidelines
+            - Finding information in unstructured text data
+            - Answering questions about billing codes, procedures, and policies
+            - Analyzing communication logs and support tickets
+            
+            Use this when you need to search through documents, analyze text content, or find information that isn't in structured databases."""
+            
+            def __init__(self, databricks_client):
+                super().__init__()
+                self._databricks_client = databricks_client
+                self._knowledge_client = None
+                self._setup_knowledge_client()
+            
+            def _setup_knowledge_client(self):
+                """Setup the Knowledge Assistant client using token generation"""
+                try:
+                    # Generate a token using the Databricks client
+                    import time
+                    token = self._databricks_client.tokens.create(
+                        comment=f"knowledge-assistant-{time.time_ns()}", 
+                        lifetime_seconds=3600
+                    )
+                    
+                    # Initialize OpenAI client for Knowledge Assistant
+                    self._knowledge_client = OpenAI(
+                        api_key=token.token_value,
+                        base_url="https://adb-984752964297111.11.azuredatabricks.net/serving-endpoints"
+                    )
+                    
+                    # Store token info for cleanup
+                    self._token_info = token.token_info
+                    print("✅ Knowledge Assistant client setup with token generation")
+                except Exception as e:
+                    st.warning(f"⚠️ Failed to setup Knowledge Assistant client: {e}")
+                    self._knowledge_client = None
+            
+            def _run(self, query: str) -> str:
+                """Execute the Knowledge Assistant query"""
+                if not self._knowledge_client:
+                    return "❌ Knowledge Assistant not available - client not initialized"
+                
+                try:
+                    # Use the OpenAI client to query the Knowledge Assistant
+                    response = self._knowledge_client.responses.create(
+                        model="ka-d0808962-endpoint",
+                        input=[
+                            {
+                                "role": "user",
+                                "content": query
+                            }
+                        ]
+                    )
+                    
+                    if response.output and len(response.output) > 0:
+                        return response.output[0].content[0].text
+                    else:
+                        return "❌ No response from Knowledge Assistant"
+                        
+                except Exception as e:
+                    return f"❌ Knowledge Assistant error: {str(e)}"
+            
+            async def _arun(self, query: str) -> str:
+                """Async version of the tool"""
+                return self._run(query)
+        
+        return KnowledgeAssistantTool(self.client)
     
     def _setup_agent(self):
         """Setup enhanced LangChain agent with role-based prompts"""
