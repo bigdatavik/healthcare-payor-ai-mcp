@@ -1,0 +1,6 @@
+command: ['streamlit', 'run', 'enhanced_healthcare_payor_app.py']
+env:
+  - name: 'DATABRICKS_WAREHOUSE_ID'
+    valueFrom: "sql-warehouse"
+  - name: 'STREAMLIT_GATHER_USAGE_STATS'
+    value: 'false'
