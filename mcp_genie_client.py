@@ -127,7 +127,7 @@ def create_genie_tool_for_langchain(genie_client: GenieMCPClient):
         description: str = """Query structured data using natural language through Genie MCP server. 
         Use this tool to analyze data, get insights, and answer questions about structured data tables.
         This tool connects to the managed Genie MCP server for advanced data analysis."""
-        args_schema = GenieQueryInput
+        args_schema: type[BaseModel] = GenieQueryInput
         
         def _run(self, query: str) -> str:
             """Execute Genie query through MCP server"""

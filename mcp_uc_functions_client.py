@@ -153,7 +153,7 @@ def create_uc_functions_tools_for_langchain(uc_client: UCFunctionsMCPClient):
     class UCMemberLookupTool(BaseTool):
         name: str = f"{uc_client.catalog}__{uc_client.schema}__lookup_member"
         description: str = f"Returns member information from {uc_client.catalog}.{uc_client.schema}.members table"
-        args_schema = MemberLookupInput
+        args_schema: type[BaseModel] = MemberLookupInput
         
         def _run(self, input_id: str) -> str:
             result = uc_client.lookup_member(input_id)
@@ -165,7 +165,7 @@ def create_uc_functions_tools_for_langchain(uc_client: UCFunctionsMCPClient):
     class UCClaimsLookupTool(BaseTool):
         name: str = f"{uc_client.catalog}__{uc_client.schema}__lookup_claims"
         description: str = f"Returns claims for a member from {uc_client.catalog}.{uc_client.schema}.claims table"
-        args_schema = ClaimsLookupInput
+        args_schema: type[BaseModel] = ClaimsLookupInput
         
         def _run(self, member_id: str) -> str:
             result = uc_client.lookup_claims(member_id)
@@ -177,7 +177,7 @@ def create_uc_functions_tools_for_langchain(uc_client: UCFunctionsMCPClient):
     class UCProvidersLookupTool(BaseTool):
         name: str = f"{uc_client.catalog}__{uc_client.schema}__lookup_providers"
         description: str = f"Returns providers by specialty from {uc_client.catalog}.{uc_client.schema}.providers table"
-        args_schema = ProvidersLookupInput
+        args_schema: type[BaseModel] = ProvidersLookupInput
         
         def _run(self, specialty_filter: str = "") -> str:
             result = uc_client.lookup_providers(specialty_filter)
