@@ -488,8 +488,27 @@ Always use the available tools to get accurate, up-to-date information from the 
                 # Get the last tool used from intermediate steps
                 last_step = response['intermediate_steps'][-1]
                 if len(last_step) >= 2:
-                    tool_used = last_step[0].tool
+                    tool_name = last_step[0].tool
+                    # Map tool names to display names
+                    if 'knowledge_assistant' in tool_name:
+                        tool_used = "Knowledge Assistant"
+                    elif 'genie' in tool_name:
+                        tool_used = "Genie Query"
+                    elif any(uc_tool in tool_name for uc_tool in ['lookup_member', 'lookup_claims', 'lookup_providers']):
+                        tool_used = "UC Functions"
+                    else:
+                        tool_used = tool_name
                     print(f"DEBUG: Detected tool from intermediate_steps: {tool_used}")
+            # Check for Knowledge Assistant patterns in the output
+            elif any(pattern in response.get('output', '').lower() for pattern in [
+                'complained about', 'complaint', 'billing code', 'customer service', 
+                'member called', 'agent:', 'member:', 'resolution', 'resolved by',
+                'customer_service_communications', 'prior_authorization'
+            ]) or any(pattern in response.get('output', '') for pattern in [
+                '[^', ']', 'customer_service_communications.txt', 'prior_authorization_documents.txt'
+            ]):
+                tool_used = "Knowledge Assistant"
+                print(f"DEBUG: Detected Knowledge Assistant from output patterns")
             # Check for Genie-specific patterns in the output
             elif any(pattern in response.get('output', '').lower() for pattern in [
                 'genie analysis', 'sql query:', 'data (', 'status count', 
