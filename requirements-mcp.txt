@@ -1,0 +1,39 @@
+# Healthcare Payor AI System - MCP Requirements
+# Dependencies for managed MCP server integration
+# Python 3.12+ required
+
+# Core Application
+streamlit>=1.50.0,<2.0.0
+pandas>=2.3.0,<3.0.0
+numpy>=1.26.0,<2.0.0
+plotly>=6.3.0,<7.0.0
+
+# Databricks MCP Integration
+databricks-sdk>=0.67.0,<1.0.0
+databricks-mcp>=0.1.0,<1.0.0
+mcp>=1.9.0,<2.0.0
+
+# LangChain for Agent Framework
+langchain>=0.3.27,<1.0.0
+langchain-core>=0.3.76,<1.0.0
+langchain-community>=0.3.30,<1.0.0
+
+# MLflow for Model Management
+mlflow>=3.1.0,<4.0.0
+mlflow-skinny>=3.1.0,<4.0.0
+
+# Data Processing
+pyarrow>=15.0.0,<16.0.0
+openpyxl>=3.1.0,<4.0.0
+
+# Security and Authentication
+cryptography>=45.0.0,<46.0.0
+requests>=2.31.0,<3.0.0
+
+# Utilities
+pydantic>=2.11.0,<3.0.0
+python-dateutil>=2.8.0,<3.0.0
+click>=8.2.0,<9.0.0
+
+# Development and Testing
+pytest>=7.4.0,<8.0.0
