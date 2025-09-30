@@ -83,53 +83,20 @@ class EnhancedHealthcarePayorAgentMCP:
             st.error(f"❌ Failed to setup tools: {e}")
     
     def _setup_agent(self):
-        """Setup the LangChain agent with MCP tools"""
+        """Setup a simple agent with MCP tools"""
         try:
             if not self.tools:
                 st.error("❌ No tools available for agent setup")
                 return
             
             # Create LLM client
-            llm = self.workspace_client.serving_endpoints.get_open_ai_client()
+            self.llm_client = self.workspace_client.serving_endpoints.get_open_ai_client()
             
-            # Define system prompt
-            system_prompt = """You are an AI assistant for a healthcare payor organization. 
-            You help with member inquiries, claims processing, and provider management.
+            # Create tool mapping
+            self.tool_map = {tool.name: tool for tool in self.tools}
             
-            Available tools:
-            - Genie MCP: Query structured data using natural language for data analysis
-            - UC Functions: Lookup member information, claims, and providers from Unity Catalog
-            
-            Always use the appropriate tool for the user's request and provide helpful, accurate responses."""
-            
-            # Create prompt template
-            prompt = ChatPromptTemplate.from_messages([
-                ("system", system_prompt),
-                MessagesPlaceholder("chat_history"),
-                ("human", "{input}"),
-                MessagesPlaceholder("agent_scratchpad")
-            ])
-            
-            # Create memory
-            memory = ConversationBufferWindowMemory(
-                memory_key="chat_history",
-                return_messages=True,
-                k=10
-            )
-            
-            # Create agent
-            agent = create_tool_calling_agent(llm, self.tools, prompt)
-            
-            # Create agent executor
-            self.agent_executor = AgentExecutor(
-                agent=agent,
-                tools=self.tools,
-                memory=memory,
-                verbose=True,
-                handle_parsing_errors=True,
-                max_iterations=5,
-                early_stopping_method="generate"
-            )
+            # Initialize memory
+            self.memory = []
             
             st.success("✅ AI Agent with MCP tools initialized")
             
@@ -140,12 +107,99 @@ class EnhancedHealthcarePayorAgentMCP:
     def chat(self, user_input: str) -> str:
         """Enhanced chat with MCP tools"""
         try:
-            if not self.agent_executor:
+            if not self.llm_client:
                 return "Agent not initialized"
             
-            response = self.agent_executor.invoke({"input": user_input})
-            return response["output"]
+            # Convert tools to OpenAI format
+            openai_tools = []
+            for tool in self.tools:
+                tool_spec = {
+                    "type": "function",
+                    "function": {
+                        "name": tool.name,
+                        "description": tool.description,
+                        "parameters": tool.args_schema.model_json_schema() if hasattr(tool.args_schema, 'model_json_schema') else {}
+                    }
+                }
+                openai_tools.append(tool_spec)
             
+            # Prepare messages
+            messages = [{"role": "system", "content": "You are a helpful AI assistant for healthcare payor operations. Use the available tools to help users with member inquiries, claims processing, and provider management."}]
+            
+            # Add conversation history
+            for msg in self.memory[-10:]:  # Keep last 10 messages
+                messages.append(msg)
+            
+            # Add current user message
+            messages.append({"role": "user", "content": user_input})
+            
+            # Call LLM with tools
+            response = self.llm_client.chat.completions.create(
+                model="databricks-claude-3-5-sonnet",
+                messages=messages,
+                tools=openai_tools,
+                tool_choice="auto"
+            )
+            
+            message = response.choices[0].message
+            
+            # Handle tool calls
+            if message.tool_calls:
+                # Add assistant message to memory
+                self.memory.append({"role": "assistant", "content": message.content, "tool_calls": message.tool_calls})
+                
+                # Execute tool calls
+                tool_results = []
+                for tool_call in message.tool_calls:
+                    tool_name = tool_call.function.name
+                    tool_args = json.loads(tool_call.function.arguments)
+                    
+                    if tool_name in self.tool_map:
+                        try:
+                            tool = self.tool_map[tool_name]
+                            result = tool._run(**tool_args)
+                            tool_results.append({
+                                "tool_call_id": tool_call.id,
+                                "role": "tool",
+                                "name": tool_name,
+                                "content": result
+                            })
+                        except Exception as e:
+                            tool_results.append({
+                                "tool_call_id": tool_call.id,
+                                "role": "tool", 
+                                "name": tool_name,
+                                "content": f"Error: {str(e)}"
+                            })
+                    else:
+                        tool_results.append({
+                            "tool_call_id": tool_call.id,
+                            "role": "tool",
+                            "name": tool_name,
+                            "content": f"Tool {tool_name} not found"
+                        })
+                
+                # Add tool results to conversation
+                messages.extend(tool_results)
+                
+                # Get final response
+                final_response = self.llm_client.chat.completions.create(
+                    model="databricks-claude-3-5-sonnet",
+                    messages=messages
+                )
+                
+                final_content = final_response.choices[0].message.content
+                
+                # Add to memory
+                self.memory.extend(tool_results)
+                self.memory.append({"role": "assistant", "content": final_content})
+                
+                return final_content
+            else:
+                # No tool calls, return direct response
+                self.memory.append({"role": "assistant", "content": message.content})
+                return message.content
+                
         except Exception as e:
             return f"I apologize, but I encountered an error: {str(e)}. Please try rephrasing your question."
 
