@@ -25,20 +25,146 @@ This implementation integrates **Managed MCP (Model Context Protocol) servers** 
 
 ## 🔧 MCP Servers Integrated
 
-### 1. Genie MCP Server
+This system leverages [Databricks managed MCP servers](https://learn.microsoft.com/en-us/azure/databricks/generative-ai/mcp/managed-mcp) to provide instant access to data and tools without building custom connections. The managed servers act as bridges that let AI agents access external data and tools seamlessly.
+
+### 1. Genie MCP Server (Managed)
 - **Purpose**: Natural language queries for structured data analysis
 - **Capabilities**: Advanced analytics, data insights, table exploration
-- **Integration**: Direct access to Databricks Genie space
+- **Type**: Databricks Managed MCP Server
+- **URL Pattern**: `https://<workspace-hostname>/api/2.0/mcp/genie/{genie_space_id}`
+- **Example URL**: `https://adb-984752964297111.11.azuredatabricks.net/api/2.0/mcp/genie/01f06a3068a81406a386e8eaefc74545`
+- **Integration**: Direct access to Databricks Genie space for structured data queries
+- **Note**: Invokes Genie as an MCP tool (history not passed between calls)
 
-### 2. Unity Catalog Functions MCP Server
+### 2. Unity Catalog Functions MCP Server (Managed)
 - **Purpose**: Execute Unity Catalog functions for data operations
-- **Capabilities**: Member lookup, claims lookup, provider lookup
-- **Integration**: Seamless access to governed data functions
+- **Capabilities**: Member lookup, claims lookup, provider lookup, custom business logic
+- **Type**: Databricks Managed MCP Server
+- **URL Pattern**: `https://<workspace-hostname>/api/2.0/mcp/functions/{catalog}/{schema}`
+- **Example URL**: `https://adb-984752964297111.11.azuredatabricks.net/api/2.0/mcp/functions/my_catalog/payer_silver`
+- **Integration**: Seamless access to governed data functions and custom Python/SQL tools
+- **Functions Available**:
+  - `get_member_details()` - Member information lookup
+  - `get_claims_by_member()` - Claims retrieval by member
+  - `get_provider_info()` - Provider directory search
+  - `search_claims_by_diagnosis()` - Claims search by diagnosis
+  - `get_member_claim_summary()` - Member claim summaries
 
-### 3. Knowledge Assistant MCP Server
+### 3. Knowledge Assistant MCP Server (Custom)
 - **Purpose**: Unstructured text analysis and document processing
 - **Capabilities**: FAQ retrieval, document search, knowledge extraction
-- **Integration**: AI-powered knowledge management
+- **Type**: Custom MCP Server (Agent Bricks Knowledge Assistant)
+- **Integration**: AI-powered knowledge management using Agent Bricks
+- **Data Sources**: Healthcare payor documentation (.txt files)
+- **Features**: RAG-based responses with citations, quality improvement through labeling sessions
+
+## 🏗️ MCP Server Architecture
+
+### **Managed vs Custom MCP Servers**
+
+| Server Type | Purpose | URL Pattern | Authentication | Data Access |
+|-------------|---------|-------------|----------------|-------------|
+| **Genie (Managed)** | Structured data queries | `/api/2.0/mcp/genie/{space_id}` | OAuth via Databricks SDK | Unity Catalog tables |
+| **UC Functions (Managed)** | Custom business logic | `/api/2.0/mcp/functions/{catalog}/{schema}` | OAuth via Databricks SDK | Unity Catalog functions |
+| **Knowledge Assistant (Custom)** | Document analysis | Agent Bricks endpoint | API key authentication | Vector search indexes |
+
+### **How MCP Servers Work Together**
+
+The Healthcare Payor AI System uses a **multi-server approach** where each MCP server handles specific data types:
+
+1. **Structured Data Queries** → Genie MCP Server
+   - Member information, claims data, provider details
+   - Natural language to SQL conversion
+   - Advanced analytics and insights
+
+2. **Business Logic Operations** → Unity Catalog Functions MCP Server
+   - Custom Python/SQL functions
+   - Data validation and processing
+   - Complex business rules implementation
+
+3. **Document Knowledge** → Knowledge Assistant MCP Server
+   - Policy documents, FAQs, procedures
+   - RAG-based document search
+   - Contextual knowledge retrieval
+
+### **MCP Server URL Configuration**
+
+The system automatically constructs MCP server URLs based on workspace configuration:
+
+```python
+# Genie MCP Server URL
+genie_url = f"https://{workspace_hostname}/api/2.0/mcp/genie/{genie_space_id}"
+
+# Unity Catalog Functions MCP Server URL  
+uc_functions_url = f"https://{workspace_hostname}/api/2.0/mcp/functions/{catalog}/{schema}"
+
+# Knowledge Assistant (via Agent Bricks endpoint)
+knowledge_assistant_endpoint = f"https://{workspace_hostname}/serving-endpoints/{endpoint_id}/invocations"
+```
+
+### **Authentication & Security**
+
+All managed MCP servers use **OAuth authentication** through the Databricks SDK:
+- **Automatic token management** - No hardcoded credentials
+- **Workspace-level permissions** - Enforced through Unity Catalog
+- **Service principal support** - For automated deployments
+- **Secure by default** - All connections encrypted
+
+## 🔧 MCP Client Implementation
+
+### **databricks-mcp Python Library**
+
+The system uses the [databricks-mcp Python library](https://pypi.org/project/databricks-mcp/) to simplify authentication and connection management for managed MCP servers. This library provides:
+
+- **Simplified Authentication**: Automatic OAuth token management
+- **Connection Pooling**: Efficient resource utilization
+- **Error Handling**: Graceful fallbacks and retry logic
+- **Tool Discovery**: Automatic discovery of available MCP tools
+
+### **MCP Client Architecture**
+
+```python
+from databricks_mcp import DatabricksMCPClient
+from databricks.sdk import WorkspaceClient
+
+# Initialize workspace client
+workspace_client = WorkspaceClient(profile="DEFAULT_azure")
+
+# Create MCP clients for each server type
+genie_client = DatabricksMCPClient(
+    server_url=f"https://{workspace_hostname}/api/2.0/mcp/genie/{genie_space_id}",
+    workspace_client=workspace_client
+)
+
+uc_functions_client = DatabricksMCPClient(
+    server_url=f"https://{workspace_hostname}/api/2.0/mcp/functions/{catalog}/{schema}",
+    workspace_client=workspace_client
+)
+```
+
+### **Tool Discovery and Execution**
+
+The system automatically discovers available tools from each MCP server:
+
+```python
+# List available tools
+genie_tools = genie_client.list_tools()
+uc_tools = uc_functions_client.list_tools()
+
+# Execute tools with parameters
+result = genie_client.call_tool("query_tables", {"query": "member information"})
+claims_data = uc_functions_client.call_tool("get_claims_by_member", {"member_id": "12345"})
+```
+
+### **Error Handling and Fallbacks**
+
+The system implements intelligent fallback mechanisms:
+
+1. **Primary**: Genie MCP Server for structured data queries
+2. **Fallback**: Unity Catalog Functions for direct data access
+3. **Knowledge**: Knowledge Assistant for document-based queries
+
+This ensures high availability and comprehensive coverage of user queries.
 
 ## 📁 Repository Structure
 
