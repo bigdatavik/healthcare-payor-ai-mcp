@@ -1,107 +1,395 @@
-<img src=https://raw.githubusercontent.com/databricks-industry-solutions/.github/main/profile/solacc_logo.png width="600px">
+# Healthcare Payor AI System with MCP Integration
 
+<img src="https://raw.githubusercontent.com/databricks-industry-solutions/.github/main/profile/solacc_logo.png" width="600px">
 
-## Business Problem
+## 🏥 Business Problem
 
-Telecoms are leveraging AI to achieve first-point resolution on customer issues and unify fragmented customer data to proactively enhance customer engagement and retention. This solution leverages AI to analyze incoming customer communications, understanding context and sentiment to prepare tailored responses for agents. We have picked one of the common billing issues for telco customers. 
+Healthcare payors face significant challenges in managing member inquiries, claims processing, and provider management at scale. This solution leverages AI and **Model Context Protocol (MCP)** to create an intelligent healthcare payor system that provides:
 
-This industry solution accelerator enables the automation and personalization of telecom billing customer care by leveraging customer-specific data available within the data ecosystem.
+- **Automated member support** with AI-powered responses
+- **Real-time claims analysis** and processing insights
+- **Provider directory management** and specialty searches
+- **Unified data access** through MCP server integration
+- **Scalable deployment** on Databricks Apps platform
 
-The aim is to help telco providers scale customer service operations with an AI-powered billing agent that leverages:
-- Billing history, customer profiles, and device data
-- Unstructured FAQs embedded in a vector search index
-- Human-in-the-loop evaluation and observability tools
-- A deployable web interface for interactive usage
+## 🚀 Overview
 
-Designed as a human-in-the-loop solution, it empowers customer service agents to resolve billing queries faster and more accurately, improving CX and reducing call centre load.
+This implementation integrates **Managed MCP (Model Context Protocol) servers** with a comprehensive Healthcare Payor AI System, providing seamless access to Databricks services through standardized MCP interfaces. The system is designed for deployment on [Databricks Apps](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/), eliminating the need for separate infrastructure while maintaining enterprise-grade security and compliance.
 
-<p align="center">
-  <img src="./images/billing_assistant.jpg" alt="Billing Assistant Diagram" width="600"/>
-</p>
+### Key Features
+- **MCP Server Integration**: Genie, Unity Catalog Functions, and Knowledge Assistant
+- **Centralized Configuration**: Easy local/cloud deployment switching
+- **Clean User Interface**: Professional responses without technical clutter
+- **Cloud-Native**: Built for Databricks Apps deployment
+- **Enterprise Security**: OAuth authentication and workspace-level permissions
 
+## 🔧 MCP Servers Integrated
+
+### 1. Genie MCP Server
+- **Purpose**: Natural language queries for structured data analysis
+- **Capabilities**: Advanced analytics, data insights, table exploration
+- **Integration**: Direct access to Databricks Genie space
+
+### 2. Unity Catalog Functions MCP Server
+- **Purpose**: Execute Unity Catalog functions for data operations
+- **Capabilities**: Member lookup, claims lookup, provider lookup
+- **Integration**: Seamless access to governed data functions
+
+### 3. Knowledge Assistant MCP Server
+- **Purpose**: Unstructured text analysis and document processing
+- **Capabilities**: FAQ retrieval, document search, knowledge extraction
+- **Integration**: AI-powered knowledge management
+
+## 📁 Repository Structure
+
+```
+healthcare-payor-ai-mcp/
+├── enhanced_healthcare_payor_app_mcp.py    # Main Streamlit application
+├── config.py                               # Centralized configuration
+├── app.yaml                               # Databricks Apps deployment config
+├── app.yaml.example                       # Deployment template
+├── mcp_genie_client.py                    # Genie MCP client
+├── mcp_uc_functions_client.py             # UC Functions MCP client
+├── mcp_knowledge_assistant_client.py      # Knowledge Assistant MCP client
+├── start_mcp_app.sh                       # Local startup script
+├── requirements.txt                       # Python dependencies
+├── databricks.yml                         # Databricks bundle configuration
+└── README.md                              # This documentation
+```
+
+## 🛠️ Installation & Setup
+
+### Prerequisites
+- **Python**: 3.11+
+- **Databricks Workspace**: With Unity Catalog enabled
+- **Databricks CLI**: Configured with appropriate profile
+- **Access**: To MCP servers and Unity Catalog functions
+
+### Local Development Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/bigdatavik/healthcare-payor-ai-mcp.git
+   cd healthcare-payor-ai-mcp
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure the system:**
+   ```bash
+   # Edit config.py with your values
+   python config.py  # Validate configuration
+   ```
+
+4. **Start the application:**
+   ```bash
+   ./start_mcp_app.sh
+   ```
+
+### Databricks Apps Deployment
+
+The system is optimized for deployment on [Databricks Apps](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/), which provides:
+
+- **Serverless hosting** on Azure Databricks platform
+- **Integrated security** with OAuth and service principals
+- **Automatic scaling** and resource management
+- **Built-in compliance** and governance
+
+#### Deployment Steps
+
+1. **Prepare your workspace:**
+   - Ensure you have Databricks Apps access
+   - Verify Unity Catalog is enabled
+   - Confirm MCP server access
+
+2. **Configure deployment:**
+   ```bash
+   # Copy and edit the deployment configuration
+   cp app.yaml.example app.yaml
+   # Update environment variables in app.yaml
+   ```
+
+3. **Deploy using Databricks CLI:**
+   ```bash
+   databricks apps deploy
+   ```
+
+## ⚙️ Configuration
+
+### Centralized Configuration (`config.py`)
+
+The system uses a centralized configuration approach that supports both local development and cloud deployment:
+
+```python
+# Unity Catalog Configuration
+CATALOG_NAME = "my_catalog"
+SCHEMA_NAME = "payer_silver"
+
+# Databricks Configuration
+DATABRICKS_PROFILE = "DEFAULT_azure"
+WORKSPACE_HOSTNAME = "your-workspace.azuredatabricks.net"
+
+# Genie Configuration
+GENIE_SPACE_ID = "your_genie_space_id"
+
+# Knowledge Assistant Configuration
+KNOWLEDGE_ASSISTANT_ENDPOINT_ID = "your_endpoint_id"
+```
+
+### Environment Variable Override
+
+For cloud deployment, the system automatically detects and uses environment variables:
+
+```yaml
+# app.yaml
+env_variables:
+  - name: 'CATALOG_NAME'
+    value: 'my_catalog'
+  - name: 'SCHEMA_NAME'
+    value: 'payer_silver'
+  - name: 'GENIE_SPACE_ID'
+    value: 'your_genie_space_id'
+  - name: 'KNOWLEDGE_ASSISTANT_ENDPOINT_ID'
+    value: 'your_endpoint_id'
+```
+
+### Auto-Detection Features
+
+- **Workspace Hostname**: Automatically detected in cloud environments
+- **Databricks Profile**: Auto-detected for seamless authentication
+- **MCP Server URLs**: Constructed automatically from workspace configuration
+
+## 🚀 Running the Application
+
+### Local Development
+```bash
+# Quick start
+./start_mcp_app.sh
+
+# Manual start
+streamlit run enhanced_healthcare_payor_app_mcp.py --server.port 8503
+```
+
+### Cloud Deployment (Databricks Apps)
+```bash
+# Deploy to Databricks Apps
+databricks apps deploy
+
+# Monitor deployment
+databricks apps list
+databricks apps get <app-id>
+```
+
+## 🎯 Features
+
+### 1. **Unified AI Agent Interface**
+- Single LangChain agent with multiple MCP tools
+- Automatic tool selection based on user queries
+- Seamless integration between all MCP servers
+
+### 2. **Real-time Status Monitoring**
+- MCP server health checks
+- Tool availability monitoring
+- Connection status dashboard
+
+### 3. **Advanced Data Analytics**
+- Genie-powered natural language queries
+- Structured data insights and visualizations
+- Real-time data processing
+
+### 4. **Healthcare-Specific Operations**
+- Member information lookup and management
+- Claims processing and analysis
+- Provider directory search and filtering
+- Knowledge base queries and FAQ retrieval
+
+### 5. **Clean User Experience**
+- Professional interface without technical clutter
+- User-friendly error messages
+- Responsive design for all devices
+
+## 🔍 Usage Examples
+
+### Genie Queries
+```python
+# Natural language data analysis
+genie_client = get_genie_mcp_client()
+result = genie_client.query_genie("What are the top 5 claims by amount?")
+```
+
+### Unity Catalog Functions
+```python
+# Member lookup
+uc_client = get_uc_functions_mcp_client()
+member = uc_client.lookup_member("1001")
+claims = uc_client.lookup_claims("1001")
+providers = uc_client.lookup_providers("cardiology")
+```
+
+### Knowledge Assistant
+```python
+# Document and FAQ queries
+knowledge_client = get_knowledge_assistant_mcp_client(workspace_client)
+result = knowledge_client.query_knowledge("What is the prior authorization process?")
+```
+
+## 🏗️ Architecture
+
+### MCP Client Architecture
+
+The system implements a modular MCP client architecture:
+
+```python
+# Genie MCP Client
+class GenieMCPClient:
+    def query_genie(self, query: str) -> Dict[str, Any]
+    def list_tools(self) -> List[Dict[str, Any]]
+    def get_health_status(self) -> Dict[str, Any]
+
+# UC Functions MCP Client
+class UCFunctionsMCPClient:
+    def call_function(self, function_name: str, **kwargs) -> Dict[str, Any]
+    def lookup_member(self, input_id: str) -> Dict[str, Any]
+    def lookup_claims(self, member_id: str) -> Dict[str, Any]
+
+# Knowledge Assistant MCP Client
+class KnowledgeAssistantMCPClient:
+    def query_knowledge(self, query: str) -> Dict[str, Any]
+    def get_health_status(self) -> Dict[str, Any]
+```
+
+### Databricks Apps Integration
+
+The application is designed to leverage [Databricks Apps](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/) capabilities:
+
+- **Serverless Compute**: Automatic scaling and resource management
+- **Integrated Security**: OAuth and service principal authentication
+- **Platform Services**: Direct access to Unity Catalog, Model Serving, and Lakeflow Jobs
+- **Compliance**: Built-in security and governance features
+
+## 📊 Performance & Monitoring
+
+### Health Check Endpoints
+- **Application Health**: `/_stcore/health`
+- **MCP Server Status**: Real-time monitoring dashboard
+- **Tool Availability**: Automatic health checks
+
+### Performance Optimizations
+- **MCP Server Caching**: Optimized data access patterns
+- **Connection Pooling**: Efficient resource utilization
+- **Error Handling**: Graceful fallbacks and retry logic
+- **Auto-scaling**: Leverages Databricks Apps serverless compute
+
+## 🔒 Security
+
+### Authentication & Authorization
+- **OAuth Integration**: Required for all MCP connections
+- **Workspace-level Permissions**: Enforced through Databricks SDK
+- **Service Principal Support**: For automated deployments
+- **No Hardcoded Credentials**: Secure token management
+
+### Compliance
+- **Unity Catalog Integration**: Governed data access
+- **Audit Logging**: Complete activity tracking
+- **Data Encryption**: At rest and in transit
+- **Network Segmentation**: Isolated compute resources
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+1. **MCP Connection Failed**
+   - Verify Databricks authentication
+   - Check workspace hostname and space IDs
+   - Ensure proper network access
+
+2. **Configuration Errors**
+   - Run `python config.py` to validate configuration
+   - Check environment variables for cloud deployment
+   - Verify catalog and schema names
+
+3. **Authentication Errors**
+   - Run `databricks auth login` to refresh tokens
+   - Verify profile name matches configuration
+   - Check workspace permissions
+
+### Debug Mode
+```python
+# Enable debug logging
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+# Test individual components
+from mcp_genie_client import test_genie_connection
+from mcp_uc_functions_client import test_uc_functions_connection
+
+test_genie_connection()
+test_uc_functions_connection()
+```
+
+## 📚 Databricks Apps Benefits
+
+Leveraging [Databricks Apps](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/) provides several advantages:
+
+### **Infrastructure Simplification**
+- **No Separate Infrastructure**: Apps are hosted on Azure Databricks serverless platform
+- **Automatic Scaling**: Built-in resource management and scaling
+- **Integrated Services**: Direct access to Unity Catalog, Model Serving, and Lakeflow Jobs
+
+### **Security & Compliance**
+- **Built-in Security**: OAuth and service principal authentication
+- **Data Governance**: Unity Catalog integration for data access control
+- **Compliance Standards**: Support for various compliance profiles
+
+### **Development & Deployment**
+- **Local Development**: Develop locally and deploy to workspace
+- **Cross-workspace Mobility**: Move apps between workspaces
+- **Framework Support**: Python (Streamlit, Dash, Gradio) and Node.js support
+
+### **Operational Benefits**
+- **Monitoring & Logging**: Integrated observability tools
+- **Resource Limits**: Managed compute resources
+- **Network Configuration**: Built-in networking and security controls
+
+## 🚀 Next Steps
+
+1. **Vector Search Integration**: Add vector search MCP server for document analysis
+2. **Custom MCP Servers**: Implement custom MCP servers for specific business logic
+3. **Multi-agent Architecture**: Extend to multiple specialized agents
+4. **Advanced Analytics**: Enhanced reporting and visualization capabilities
+5. **Mobile Support**: Responsive design for mobile devices
+
+## 📚 References
+
+- [Databricks Apps Documentation](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/)
+- [Databricks Managed MCP Servers](https://learn.microsoft.com/en-us/azure/databricks/generative-ai/mcp/managed-mcp)
+- [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
+- [Databricks MCP Python Library](https://pypi.org/project/databricks-mcp/)
+- [Streamlit Documentation](https://docs.streamlit.io/)
+
+## 🤝 Support
+
+For issues or questions:
+1. Check the troubleshooting section
+2. Review Databricks Apps documentation
+3. Verify workspace permissions and configuration
+4. Test individual MCP client connections
+5. Check the application logs for detailed error information
+
+## 📄 License
+
+&copy; 2025 Databricks, Inc. All rights reserved. The source in this project is provided subject to the Databricks License. All included or referenced third party libraries are subject to their respective licenses.
 
 ---
 
+## 🏷️ Version Information
 
-## Authors
-Kyra Wulffert <kyra.wulffert@databricks.com><br>
-Sachin Patil <sachin.patil@databricks.com>
-
----
-
-## Repository Structure
-
-| Notebook | Description |
-|----------|-------------|
-| `000-config` | Central config for the accelerator  |
-| `00_data_preparation` | Synthetic data generation using [Databricks Labs Data Generator](https://github.com/databrickslabs/dbldatagen). Simulates billing, device, and customer datasets. |
-| `01_create_vector_search` | Builds the FAQ dataset and creates a vector search index using Databricks Vector Search. |
-| `02_define_uc_tools` | Defines functions as tools in Unity Catalog. These are callable by the agent to query customer, billing, and device information and retrieve relevant data from the vector search with FAQ. |
-| `03_agent_deployment_and_evaluation` | Builds, logs, evaluates, registers, and deploys the agent to a model serving endpoint. Includes synthetic evaluation via the FAQ dataset. |
-| `dash-chatbot-app/` | A simple Dash web app that lets users chat with the deployed agent using the Databricks Apps framework. |
-
----
-
-## How to Use
-
-Follow the notebooks in **numerical order** for a smooth end-to-end experience:
-
-1. **[000-config]** – Set up your catalog, schema, endpoint names, and runtime parameters.
-2. **[00_data_preparation]** – Generate synthetic datasets for billing, customers, and devices.
-3. **[01_create_vector_search]** – Build the FAQ dataset, create a Delta table, and generate a vector search index.
-4. **[02_define_uc_tools]** – Define tools that expose customer data to the agent.
-6. **[03_agent_deployment_and_evaluation]** – Build and log the model to MLflow, run agent evaluation with a synthetic evaluation dataset, register the model to Unity Catalog, and deploy it to a serving endpoint.
-7. **[`dash-chatbot-app`]** – Launch the chatbot UI to interact with your agent.
-
----
-
-## Highlights
-
-- **End-to-end LLM agent lifecycle**: From data to deployment.
-- **Evaluation-first approach**: Includes synthetic question generation and MLflow integration for benchmarking agent performance.
-- **Built-in vector search**: FAQ retrieval using vector search index and semantic similarity.
-- **Fully governed**: Unity Catalog integration for tool and model registration.
-- **Deployable UI**: Lightweight Dash app included for real-world usage and demoing.
-
-<p align="center">
-  <img src="./images/chatbot.jpg" alt="Billing Assistant Diagram" width="600"/>
-</p>
-
----
-
-## Requirements
-
-- Databricks workspace with Unity Catalog enabled
-- Access to Databricks Vector Search & Serving Endpoints
-- Installed: `databricks-sdk`, `databricks-vectorsearch`, `mlflow`, `dash`, `langchain`, etc.
-- Cluster or SQL Warehouse to execute notebooks
-- Recommended Databricks Runtime: 15.4 ML
-
----
-
-## Get Started
-
-Start with `000-config` and move through each notebook step-by-step.  
-This project is designed to be modular—feel free to extend tools, customize prompts, or connect new data sources.
-
----
-
-## Project support 
-
-Please note the code in this project is provided for your exploration only, and are not formally supported by Databricks with Service Level Agreements (SLAs). They are provided AS-IS and we do not make any guarantees of any kind. Please do not submit a support ticket relating to any issues arising from the use of these projects. The source in this project is provided subject to the Databricks [License](./LICENSE.md). All included or referenced third party libraries are subject to the licenses set forth below.
-
-Any issues discovered through the use of this project should be filed as GitHub Issues on the Repo. They will be reviewed as time permits, but there are no formal SLAs for support. 
-
----
-
-## License
-
-&copy; 2025 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below. 
-
-##This list needs to be updated
-
-| library                                | description             | license    | source                                              |
-|----------------------------------------|-------------------------|------------|-----------------------------------------------------|
-|  | |  |
-
-
+- **Current Version**: v2.0.0
+- **Python**: 3.11+
+- **Streamlit**: 1.50.0+
+- **Databricks SDK**: 0.67.0+
+- **MCP Integration**: Complete
+- **Databricks Apps**: Ready for deployment
