@@ -209,11 +209,17 @@ def create_uc_functions_tools_for_langchain(uc_client: UCFunctionsMCPClient):
     
     return [UCMemberLookupTool(), UCClaimsLookupTool(), UCProvidersLookupTool()]
 
-# Configuration
-WORKSPACE_HOSTNAME = "adb-984752964297111.11.azuredatabricks.net"
-CATALOG = "my_catalog"
-SCHEMA = "payer_silver"
-DATABRICKS_PROFILE = "DEFAULT_azure"
+# Configuration - Import from config.py
+try:
+    from config import WORKSPACE_HOSTNAME, CATALOG_NAME, SCHEMA_NAME, DATABRICKS_PROFILE
+    CATALOG = CATALOG_NAME
+    SCHEMA = SCHEMA_NAME
+except ImportError:
+    # Fallback values if importing fails
+    WORKSPACE_HOSTNAME = "adb-984752964297111.11.azuredatabricks.net"
+    CATALOG = "my_catalog"
+    SCHEMA = "payer_silver"
+    DATABRICKS_PROFILE = "DEFAULT_azure"
 
 def get_uc_functions_mcp_client() -> UCFunctionsMCPClient:
     """Get initialized UC Functions MCP client"""

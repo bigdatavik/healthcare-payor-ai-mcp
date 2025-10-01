@@ -1,0 +1,47 @@
+# Example app.yaml for cloud deployment
+# Copy this to app.yaml and update the values for your environment
+
+runtime: python39
+
+env_variables:
+  # Unity Catalog Configuration
+  CATALOG_NAME: "your_catalog_name"
+  SCHEMA_NAME: "your_schema_name"
+  
+  # Databricks Configuration
+  DATABRICKS_PROFILE: "your_profile_name"
+  WORKSPACE_HOSTNAME: "your-workspace-hostname.azuredatabricks.net"
+  
+  # Genie Configuration
+  GENIE_SPACE_ID: "your_genie_space_id"
+  
+  # Optional: Additional environment variables
+  # DATABRICKS_TOKEN: "your_token_if_needed"
+  # DATABRICKS_HOST: "your-workspace-hostname.azuredatabricks.net"
+
+# Automatic scaling configuration
+automatic_scaling:
+  min_instances: 1
+  max_instances: 10
+  target_cpu_utilization: 0.6
+
+# Health check configuration
+readiness_check:
+  path: "/"
+  check_interval_sec: 5
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+
+liveness_check:
+  path: "/"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+
+# Resource configuration
+resources:
+  cpu: 1
+  memory_gb: 2
+  disk_size_gb: 10

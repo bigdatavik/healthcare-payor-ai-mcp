@@ -140,10 +140,14 @@ def create_genie_tool_for_langchain(genie_client: GenieMCPClient):
     
     return GenieMCPTool()
 
-# Configuration
-WORKSPACE_HOSTNAME = "adb-984752964297111.11.azuredatabricks.net"
-GENIE_SPACE_ID = "01f06a3068a81406a386e8eaefc74545"
-DATABRICKS_PROFILE = "DEFAULT_azure"
+# Configuration - Import from config.py
+try:
+    from config import WORKSPACE_HOSTNAME, DATABRICKS_PROFILE, GENIE_SPACE_ID
+except ImportError:
+    # Fallback values if importing fails
+    WORKSPACE_HOSTNAME = "adb-984752964297111.11.azuredatabricks.net"
+    GENIE_SPACE_ID = "01f06a3068a81406a386e8eaefc74545"
+    DATABRICKS_PROFILE = "DEFAULT_azure"
 
 def get_genie_mcp_client() -> GenieMCPClient:
     """Get initialized Genie MCP client"""
