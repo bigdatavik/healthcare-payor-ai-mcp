@@ -62,7 +62,7 @@ class UCFunctionsMCPClient:
     
     def call_function(self, function_name: str, **kwargs) -> Dict[str, Any]:
         """
-        Call a Unity Catalog function through MCP server
+        Call a Unity Catalog function through MCP server or direct call
         
         Args:
             function_name: Name of the UC function to call
@@ -71,18 +71,39 @@ class UCFunctionsMCPClient:
         Returns:
             Dictionary containing function results
         """
-        if not self.mcp_client:
-            return {"error": "MCP client not initialized"}
+        # Try MCP client first
+        if self.mcp_client:
+            try:
+                result = self.mcp_client.call_tool(function_name, kwargs)
+                
+                return {
+                    "success": True,
+                    "function_name": function_name,
+                    "arguments": kwargs,
+                    "result": result.content if hasattr(result, 'content') else str(result),
+                    "tool_used": "UC Functions MCP"
+                }
+            except Exception as e:
+                st.warning(f"⚠️ MCP call failed, trying direct UC function call: {e}")
         
+        # Fallback to direct UC function call
         try:
-            result = self.mcp_client.call_tool(function_name, kwargs)
+            # Extract function name without catalog.schema prefix
+            simple_function_name = function_name.split('__')[-1]
+            full_function_name = f"{self.catalog}.{self.schema}.{simple_function_name}"
+            
+            # Call function directly
+            result = self.workspace_client.functions.call_function(
+                function_name=full_function_name,
+                arguments=kwargs
+            )
             
             return {
                 "success": True,
                 "function_name": function_name,
                 "arguments": kwargs,
-                "result": result.content if hasattr(result, 'content') else str(result),
-                "tool_used": "UC Functions MCP"
+                "result": result,
+                "tool_used": "UC Functions Direct"
             }
         except Exception as e:
             return {
@@ -90,7 +111,7 @@ class UCFunctionsMCPClient:
                 "error": str(e),
                 "function_name": function_name,
                 "arguments": kwargs,
-                "tool_used": "UC Functions MCP"
+                "tool_used": "UC Functions Direct"
             }
     
     def lookup_member(self, input_id: str) -> Dict[str, Any]:
@@ -101,7 +122,7 @@ class UCFunctionsMCPClient:
     def lookup_claims(self, member_id: str) -> Dict[str, Any]:
         """Lookup claims for a member using UC function"""
         function_name = f"{self.catalog}__{self.schema}__lookup_claims"
-        return self.call_function(function_name, member_id=member_id)
+        return self.call_function(function_name, input_id=member_id)
     
     def lookup_providers(self, specialty_filter: str = None) -> Dict[str, Any]:
         """Lookup providers using UC function"""

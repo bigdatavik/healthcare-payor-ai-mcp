@@ -15,6 +15,7 @@ from typing import Dict, List, Any
 # Import MCP clients
 from mcp_genie_client import get_genie_mcp_client, create_genie_tool_for_langchain
 from mcp_uc_functions_client import get_uc_functions_mcp_client, create_uc_functions_tools_for_langchain
+from mcp_knowledge_assistant_client import get_knowledge_assistant_mcp_client, create_knowledge_assistant_tool_for_langchain
 
 # LangChain imports
 from langchain.agents import create_tool_calling_agent, AgentExecutor
@@ -34,6 +35,7 @@ class EnhancedHealthcarePayorAgentMCP:
         self.workspace_client = None
         self.genie_client = None
         self.uc_functions_client = None
+        self.knowledge_assistant_client = None
         self.tools = []
         self.agent_executor = None
         self._setup_clients()
@@ -53,6 +55,9 @@ class EnhancedHealthcarePayorAgentMCP:
             # Initialize UC Functions MCP client
             self.uc_functions_client = get_uc_functions_mcp_client()
             
+            # Initialize Knowledge Assistant client
+            self.knowledge_assistant_client = get_knowledge_assistant_mcp_client(self.workspace_client)
+            
         except Exception as e:
             st.error(f"❌ Failed to setup MCP clients: {e}")
             st.stop()
@@ -63,16 +68,30 @@ class EnhancedHealthcarePayorAgentMCP:
         
         try:
             # Add Genie MCP tool
-            if self.genie_client and self.genie_client.mcp_client:
-                genie_tool = create_genie_tool_for_langchain(self.genie_client)
-                self.tools.append(genie_tool)
-                st.success("✅ Genie MCP tool loaded")
+            if self.genie_client:
+                st.info(f"🔍 Genie client status: MCP client = {self.genie_client.mcp_client is not None}")
+                if self.genie_client.mcp_client:
+                    genie_tool = create_genie_tool_for_langchain(self.genie_client)
+                    self.tools.append(genie_tool)
+                    st.success("✅ Genie MCP tool loaded")
+                else:
+                    st.warning("⚠️ Genie MCP client not properly initialized")
+            else:
+                st.error("❌ Genie client not created")
             
             # Add UC Functions MCP tools
             if self.uc_functions_client and self.uc_functions_client.mcp_client:
                 uc_tools = create_uc_functions_tools_for_langchain(self.uc_functions_client)
                 self.tools.extend(uc_tools)
                 st.success(f"✅ UC Functions MCP tools loaded ({len(uc_tools)} tools)")
+            
+            # Add Knowledge Assistant tool
+            if self.knowledge_assistant_client and self.knowledge_assistant_client.knowledge_client:
+                knowledge_tool = create_knowledge_assistant_tool_for_langchain(self.knowledge_assistant_client)
+                self.tools.append(knowledge_tool)
+                st.success("✅ Knowledge Assistant tool loaded")
+            else:
+                st.warning("⚠️ Knowledge Assistant tool not available")
             
             if not self.tools:
                 st.warning("⚠️ No MCP tools available")
@@ -135,7 +154,7 @@ class EnhancedHealthcarePayorAgentMCP:
             
             # Call LLM with tools
             response = self.llm_client.chat.completions.create(
-                model="databricks-claude-3-5-sonnet",
+                model="databricks-meta-llama-3-1-8b-instruct",
                 messages=messages,
                 tools=openai_tools,
                 tool_choice="auto"
@@ -184,7 +203,7 @@ class EnhancedHealthcarePayorAgentMCP:
                 
                 # Get final response
                 final_response = self.llm_client.chat.completions.create(
-                    model="databricks-claude-3-5-sonnet",
+                    model="databricks-meta-llama-3-1-8b-instruct",
                     messages=messages
                 )
                 
@@ -238,6 +257,19 @@ def create_mcp_status_dashboard():
                 st.error(f"❌ UC Functions MCP: {uc_health.get('error', 'Unknown error')}")
         except Exception as e:
             st.error(f"❌ UC Functions MCP Error: {e}")
+        
+        st.markdown("#### Knowledge Assistant")
+        try:
+            knowledge_client = get_knowledge_assistant_mcp_client(WorkspaceClient(profile="DEFAULT_azure"))
+            knowledge_health = knowledge_client.get_health_status()
+            
+            if knowledge_health["status"] == "healthy":
+                st.success(f"✅ Connected to Knowledge Assistant")
+                st.info(f"Endpoint: {knowledge_health['endpoint']}")
+            else:
+                st.error(f"❌ Knowledge Assistant: {knowledge_health.get('error', 'Unknown error')}")
+        except Exception as e:
+            st.error(f"❌ Knowledge Assistant Error: {e}")
 
 def main():
     """Main Streamlit application"""
@@ -267,10 +299,16 @@ def main():
         - Member lookup
         - Claims lookup  
         - Provider lookup
+        
+        **Knowledge Assistant:**
+        - Document analysis
+        - Policy and guideline search
+        - Complaint analysis
+        - Billing code lookup
         """)
     
     # Main content
-    tab1, tab2, tab3 = st.tabs(["💬 Chat Assistant", "📊 Analytics", "🔧 MCP Tools"])
+    tab1, tab2 = st.tabs(["💬 Chat Assistant", "📊 Analytics"])
     
     with tab1:
         st.header("AI Assistant with MCP Integration")
@@ -314,32 +352,6 @@ def main():
         with col4:
             st.metric("Satisfaction", "94%", "2%")
     
-    with tab3:
-        st.header("🔧 MCP Tools Testing")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("Genie MCP Test")
-            genie_query = st.text_input("Enter Genie query:", "What tables are available?")
-            if st.button("Test Genie MCP"):
-                try:
-                    genie_client = get_genie_mcp_client()
-                    result = genie_client.query_genie(genie_query)
-                    st.json(result)
-                except Exception as e:
-                    st.error(f"Error: {e}")
-        
-        with col2:
-            st.subheader("UC Functions MCP Test")
-            member_id = st.text_input("Enter Member ID:", "1001")
-            if st.button("Test UC Functions MCP"):
-                try:
-                    uc_client = get_uc_functions_mcp_client()
-                    result = uc_client.lookup_member(member_id)
-                    st.json(result)
-                except Exception as e:
-                    st.error(f"Error: {e}")
 
 if __name__ == "__main__":
     # Initialize session state
