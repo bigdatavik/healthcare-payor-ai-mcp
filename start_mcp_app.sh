@@ -13,7 +13,7 @@ export DATABRICKS_PROFILE="DEFAULT_azure"
 echo "🔍 Checking MCP dependencies..."
 python -c "import databricks_mcp; print('✅ databricks-mcp installed')" || {
     echo "❌ databricks-mcp not found. Installing MCP dependencies..."
-    pip install -r requirements-mcp.txt
+    pip install -r requirements.txt
 }
 
 # Find available port
