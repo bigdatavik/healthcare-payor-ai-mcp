@@ -1,8 +1,8 @@
-# Healthcare Payor AI System - Cloud Deployment Guide
+# Healthcare Payor AI System - MCP Cloud Deployment Guide
 
 ## 🚀 Quick Cloud Deployment
 
-This guide provides instructions for deploying the Healthcare Payor AI System to various cloud platforms.
+This guide provides instructions for deploying the Healthcare Payor AI System with MCP integration to various cloud platforms.
 
 ### Prerequisites
 - Python 3.11+

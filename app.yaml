@@ -1,4 +1,4 @@
-command: ['streamlit', 'run', 'enhanced_healthcare_payor_app.py']
+command: ['streamlit', 'run', 'enhanced_healthcare_payor_app_mcp.py']
 env:
   - name: 'DATABRICKS_WAREHOUSE_ID'
     valueFrom: "sql-warehouse"
