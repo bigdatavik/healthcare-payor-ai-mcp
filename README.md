@@ -121,20 +121,93 @@ Before running the Healthcare Payor AI System, you need to set up the initial ca
    # Copy the Space ID: 01f06a3068a81406a386e8eaefc74545
    ```
 
-5. **Set up Knowledge Assistant (Optional):**
+5. **Set up Knowledge Assistant using Agent Bricks:**
+   
+   **Prerequisites:**
+   - Ensure your workspace has **Mosaic AI Agent Bricks Preview (Beta)** enabled
+   - **Production monitoring for MLflow (Beta)** enabled for tracing
+   - **Serverless compute** enabled
+   - **Unity Catalog** enabled
+   - **Partner-powered AI features** enabled
+   - Access to **Mosaic AI Model Serving**
+   - Access to foundation models in Unity Catalog through the `system.ai` schema
+   - Access to a **serverless budget policy** with a nonzero budget
+   - Workspace in supported regions: `centralus`, `eastus`, `eastus2`, `northcentralus`, `southcentralus`, `westus`, or `westus2`
+
+   **Step 1: Prepare Knowledge Source Files**
    ```bash
-   # In Databricks workspace, navigate to AI/ML section
-   # 1. Go to "AI/ML" > "Knowledge Assistant" in your Databricks workspace
-   # 2. Create a new Knowledge Assistant endpoint
-   # 3. Configure with your healthcare domain knowledge
-   # 4. Note the endpoint ID for configuration
+   # Upload the following .txt files to a Unity Catalog volume in payer_bronze schema
+   # These files contain healthcare payor domain knowledge:
    ```
 
-   **Knowledge Assistant Configuration:**
-   - **Endpoint Name**: `Healthcare Payor Knowledge Assistant`
-   - **Description**: `Knowledge base for healthcare payor operations and FAQs`
-   - **Data Sources**: Upload relevant healthcare payor documentation
-   - **Model**: Select appropriate foundation model for your use case
+   **Knowledge Source Files:**
+   - **`member_benefits.txt`** - Member benefit plans, coverage details, and eligibility requirements
+   - **`claims_processing.txt`** - Claims processing procedures, approval workflows, and denial reasons
+   - **`provider_network.txt`** - Provider directory information, specialties, and network coverage
+   - **`medical_coding.txt`** - ICD-10 codes, CPT codes, and medical terminology reference
+   - **`policy_guidelines.txt`** - Healthcare policies, compliance requirements, and operational procedures
+   - **`faq_common_questions.txt`** - Frequently asked questions and standard responses
+   - **`coverage_limits.txt`** - Coverage limits, deductibles, copayments, and out-of-pocket maximums
+   - **`prior_authorization.txt`** - Prior authorization requirements and procedures
+
+   **Step 2: Create Knowledge Assistant Agent**
+   ```bash
+   # In Databricks workspace:
+   # 1. Navigate to "Agents" in the left navigation pane
+   # 2. Click "Knowledge Assistant"
+   # 3. Configure your agent:
+   ```
+
+   **Agent Configuration:**
+   - **Name**: `Healthcare Payor Knowledge Assistant`
+   - **Description**: `AI-powered knowledge base for healthcare payor operations, member support, and claims processing`
+   - **Knowledge Source Type**: `UC Files`
+   - **Source**: Select the Unity Catalog volume containing your .txt files
+   - **Name**: `Healthcare Payor Documentation`
+   - **Content Description**: `Healthcare payor operations documentation including member benefits, claims processing, provider networks, medical coding, policies, FAQs, coverage limits, and prior authorization procedures`
+
+   **Step 3: Add Instructions (Optional)**
+   ```bash
+   # Add specific instructions for the agent's behavior:
+   # "You are a healthcare payor knowledge assistant. Provide accurate, helpful responses about:
+   # - Member benefits and coverage details
+   # - Claims processing procedures and requirements
+   # - Provider network information and specialties
+   # - Medical coding and terminology
+   # - Policy guidelines and compliance requirements
+   # - Common questions and standard procedures
+   # Always cite your sources and provide specific, actionable information."
+   ```
+
+   **Step 4: Test and Improve the Agent**
+   ```bash
+   # After agent creation (can take up to a few hours):
+   # 1. Go to the "Configure" tab of your Knowledge Assistant
+   # 2. Click "Try in Playground" to test the agent
+   # 3. Ask questions related to your healthcare payor documentation
+   # 4. Review responses and citations
+   # 5. Use "Improve quality" tab to add questions for labeling sessions
+   # 6. Gather feedback from subject matter experts to improve performance
+   ```
+
+   **Step 5: Get the Endpoint ID**
+   ```bash
+   # 1. Go to the "Configure" tab of your Knowledge Assistant
+   # 2. Click "Open in playground"
+   # 3. Click "Get code" and select "Python API"
+   # 4. Copy the endpoint ID from the code example
+   # The endpoint ID will look like: ka-d0808962-endpoint
+   ```
+
+   **Step 6: Quality Improvement (Optional)**
+   ```bash
+   # Use the "Improve quality" tab to:
+   # 1. Add at least 20 questions for evaluation
+   # 2. Start a labeling session
+   # 3. Share the review app with healthcare domain experts
+   # 4. Collect feedback to improve agent performance
+   # 5. Merge feedback and retrain the agent
+   ```
 
 6. **Update Configuration with MCP Server IDs:**
    ```bash
@@ -426,6 +499,15 @@ The application is designed to leverage [Databricks Apps](https://learn.microsof
 - **"UDFs not accessible"**: Execute the `02_define_uc_tools_payor.ipynb` notebook
 - **"Empty results"**: Verify data is loaded in the Silver/Gold layers
 
+#### **Knowledge Assistant Issues**
+- **"Agent Bricks not available"**: Ensure Mosaic AI Agent Bricks Preview (Beta) is enabled
+- **"Files not found"**: Verify .txt files are uploaded to Unity Catalog volume in payer_bronze schema
+- **"Files too large"**: Files larger than 50 MB are automatically skipped; split large files
+- **"Agent creation failed"**: Check serverless compute is enabled and budget policy has nonzero budget
+- **"Endpoint not accessible"**: Verify workspace is in supported region and has required permissions
+- **"Poor response quality"**: Use "Improve quality" tab to add questions and gather expert feedback
+- **"No citations"**: Ensure files are properly uploaded and agent has finished syncing (can take hours)
+
 ### Debug Mode
 ```python
 # Enable debug logging
@@ -476,6 +558,7 @@ Leveraging [Databricks Apps](https://learn.microsoft.com/en-us/azure/databricks/
 
 - [Databricks Apps Documentation](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/)
 - [Databricks Managed MCP Servers](https://learn.microsoft.com/en-us/azure/databricks/generative-ai/mcp/managed-mcp)
+- [Agent Bricks: Knowledge Assistant](https://learn.microsoft.com/en-us/azure/databricks/generative-ai/agent-bricks/knowledge-assistant) - Create AI chatbots over documents
 - [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
 - [Databricks MCP Python Library](https://pypi.org/project/databricks-mcp/)
 - [Streamlit Documentation](https://docs.streamlit.io/)
