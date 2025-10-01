@@ -1,6 +1,25 @@
 command: ['streamlit', 'run', 'enhanced_healthcare_payor_app_mcp.py']
 env:
+  # Databricks Configuration
   - name: 'DATABRICKS_WAREHOUSE_ID'
     valueFrom: "sql-warehouse"
   - name: 'STREAMLIT_GATHER_USAGE_STATS'
     value: 'false'
+  
+  # Unity Catalog Configuration
+  - name: 'CATALOG_NAME'
+    value: 'my_catalog'
+  - name: 'SCHEMA_NAME'
+    value: 'payer_silver'
+  
+  # Databricks Profile (workspace hostname auto-detected in cloud)
+  - name: 'DATABRICKS_PROFILE'
+    value: 'DEFAULT_azure'
+  
+  # Genie Configuration
+  - name: 'GENIE_SPACE_ID'
+    value: '01f06a3068a81406a386e8eaefc74545'
+  
+  # Knowledge Assistant Configuration
+  - name: 'KNOWLEDGE_ASSISTANT_ENDPOINT_ID'
+    value: 'ka-d0808962-endpoint'

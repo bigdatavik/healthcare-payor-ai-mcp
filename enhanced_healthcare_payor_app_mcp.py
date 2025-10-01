@@ -13,6 +13,7 @@ from config import (
     DATABRICKS_PROFILE, 
     WORKSPACE_HOSTNAME, 
     GENIE_SPACE_ID,
+    KNOWLEDGE_ASSISTANT_ENDPOINT_ID,
     validate_config
 )
 

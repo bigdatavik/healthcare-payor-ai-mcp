@@ -38,6 +38,25 @@ Copy this file to `app.yaml` and update the environment variables for cloud depl
 2. **Update the environment variables** in `app.yaml` with your values
 3. **Deploy** - the app will read from environment variables
 
+## Important Notes
+
+### WORKSPACE_HOSTNAME Usage
+
+- **Local Development**: Used for MCP server URLs and Databricks SDK initialization
+- **Cloud Deployment**: The Databricks Python SDK automatically detects the workspace hostname from the environment
+- **MCP Servers**: Still needed for constructing MCP server URLs (Genie, UC Functions)
+
+### Automatic Detection
+
+In cloud environments, the Databricks SDK automatically:
+- Detects the workspace hostname from `DATABRICKS_HOST` environment variable
+- Uses the appropriate authentication method
+- Connects to the correct workspace
+
+The `WORKSPACE_HOSTNAME` in `config.py` is primarily for:
+1. **Local development** when using Databricks CLI profiles
+2. **MCP server URL construction** for Genie and UC Functions
+
 ## Required Configuration Values
 
 | Variable | Description | Example |
@@ -45,7 +64,7 @@ Copy this file to `app.yaml` and update the environment variables for cloud depl
 | `CATALOG_NAME` | Unity Catalog name | `my_catalog` |
 | `SCHEMA_NAME` | Schema name containing UC functions | `payer_silver` |
 | `DATABRICKS_PROFILE` | Databricks CLI profile | `DEFAULT_azure` |
-| `WORKSPACE_HOSTNAME` | Databricks workspace hostname | `adb-123456789.11.azuredatabricks.net` |
+| `WORKSPACE_HOSTNAME` | Databricks workspace hostname (for local dev & MCP URLs) | `adb-123456789.11.azuredatabricks.net` |
 | `GENIE_SPACE_ID` | Genie space ID | `01f06a3068a81406a386e8eaefc74545` |
 
 ## Environment Variable Override

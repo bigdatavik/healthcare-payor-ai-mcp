@@ -10,6 +10,13 @@ from databricks.sdk import WorkspaceClient
 import streamlit as st
 from openai import OpenAI
 
+# Configuration - Import from config.py
+try:
+    from config import KNOWLEDGE_ASSISTANT_ENDPOINT_ID
+except ImportError:
+    # Fallback value if importing fails
+    KNOWLEDGE_ASSISTANT_ENDPOINT_ID = "ka-d0808962-endpoint"
+
 class KnowledgeAssistantMCPClient:
     """Client for Knowledge Assistant functionality"""
     
@@ -68,7 +75,7 @@ class KnowledgeAssistantMCPClient:
         try:
             # Use the OpenAI client to query the Knowledge Assistant
             response = self.knowledge_client.responses.create(
-                model="ka-d0808962-endpoint",
+                model=KNOWLEDGE_ASSISTANT_ENDPOINT_ID,
                 input=[
                     {
                         "role": "user",
@@ -105,14 +112,14 @@ class KnowledgeAssistantMCPClient:
         try:
             return {
                 "status": "healthy" if self.knowledge_client else "unhealthy",
-                "endpoint": "ka-d0808962-endpoint",
+                "endpoint": KNOWLEDGE_ASSISTANT_ENDPOINT_ID,
                 "client_initialized": self.knowledge_client is not None
             }
         except Exception as e:
             return {
                 "status": "unhealthy",
                 "error": str(e),
-                "endpoint": "ka-d0808962-endpoint"
+                "endpoint": KNOWLEDGE_ASSISTANT_ENDPOINT_ID
             }
 
 def create_knowledge_assistant_tool_for_langchain(knowledge_client: KnowledgeAssistantMCPClient):

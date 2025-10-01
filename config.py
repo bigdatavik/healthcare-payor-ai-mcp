@@ -19,6 +19,8 @@ SCHEMA_NAME = "payer_silver"  # Update this for your schema
 DATABRICKS_PROFILE = "DEFAULT_azure"  # Update this for your profile
 
 # Workspace Configuration
+# Note: In cloud deployment, this is automatically detected by Databricks SDK
+# Only needed for local development and MCP server URLs
 WORKSPACE_HOSTNAME = "adb-984752964297111.11.azuredatabricks.net"  # Update this for your workspace
 
 # =============================================================================
@@ -27,6 +29,13 @@ WORKSPACE_HOSTNAME = "adb-984752964297111.11.azuredatabricks.net"  # Update this
 
 # Genie Space ID
 GENIE_SPACE_ID = "01f06a3068a81406a386e8eaefc74545"  # Update this for your Genie space
+
+# =============================================================================
+# KNOWLEDGE ASSISTANT CONFIGURATION
+# =============================================================================
+
+# Knowledge Assistant Endpoint ID
+KNOWLEDGE_ASSISTANT_ENDPOINT_ID = "ka-d0808962-endpoint"  # Update this for your Knowledge Assistant endpoint
 
 # =============================================================================
 # CLOUD DEPLOYMENT CONFIGURATION
@@ -41,6 +50,11 @@ SCHEMA_NAME = os.getenv("SCHEMA_NAME", SCHEMA_NAME)
 DATABRICKS_PROFILE = os.getenv("DATABRICKS_PROFILE", DATABRICKS_PROFILE)
 WORKSPACE_HOSTNAME = os.getenv("WORKSPACE_HOSTNAME", WORKSPACE_HOSTNAME)
 GENIE_SPACE_ID = os.getenv("GENIE_SPACE_ID", GENIE_SPACE_ID)
+KNOWLEDGE_ASSISTANT_ENDPOINT_ID = os.getenv("KNOWLEDGE_ASSISTANT_ENDPOINT_ID", KNOWLEDGE_ASSISTANT_ENDPOINT_ID)
+
+# In cloud environments, set WORKSPACE_HOSTNAME to auto-detect if not provided
+if not WORKSPACE_HOSTNAME or WORKSPACE_HOSTNAME == "":
+    WORKSPACE_HOSTNAME = "auto-detect"
 
 # =============================================================================
 # CONFIGURATION VALIDATION
@@ -52,9 +66,13 @@ def validate_config():
         "CATALOG_NAME": CATALOG_NAME,
         "SCHEMA_NAME": SCHEMA_NAME,
         "DATABRICKS_PROFILE": DATABRICKS_PROFILE,
-        "WORKSPACE_HOSTNAME": WORKSPACE_HOSTNAME,
-        "GENIE_SPACE_ID": GENIE_SPACE_ID
+        "GENIE_SPACE_ID": GENIE_SPACE_ID,
+        "KNOWLEDGE_ASSISTANT_ENDPOINT_ID": KNOWLEDGE_ASSISTANT_ENDPOINT_ID
     }
+    
+    # WORKSPACE_HOSTNAME is optional - can be auto-detected in cloud environments
+    if WORKSPACE_HOSTNAME and WORKSPACE_HOSTNAME != "auto-detect":
+        required_configs["WORKSPACE_HOSTNAME"] = WORKSPACE_HOSTNAME
     
     missing_configs = [key for key, value in required_configs.items() if not value]
     
@@ -71,3 +89,4 @@ if __name__ == "__main__":
     print(f"Profile: {DATABRICKS_PROFILE}")
     print(f"Workspace: {WORKSPACE_HOSTNAME}")
     print(f"Genie Space: {GENIE_SPACE_ID}")
+    print(f"Knowledge Assistant Endpoint: {KNOWLEDGE_ASSISTANT_ENDPOINT_ID}")

@@ -30,6 +30,17 @@ class GenieMCPClient:
         # Initialize workspace client
         self.workspace_client = WorkspaceClient(profile=profile)
         
+        # In cloud environments, get hostname from workspace client if not provided
+        if not workspace_hostname or workspace_hostname == "auto-detect":
+            try:
+                # Try to get hostname from workspace client (works in cloud environments)
+                self.workspace_hostname = self.workspace_client.config.host
+                self.mcp_url = f"https://{self.workspace_hostname}/api/2.0/mcp/genie/{genie_space_id}"
+            except:
+                # Fallback to provided hostname
+                self.workspace_hostname = workspace_hostname
+                self.mcp_url = f"https://{workspace_hostname}/api/2.0/mcp/genie/{genie_space_id}"
+        
         # Initialize MCP client
         self.mcp_client = None
         self._initialize_mcp_client()

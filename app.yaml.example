@@ -8,12 +8,14 @@ env_variables:
   CATALOG_NAME: "your_catalog_name"
   SCHEMA_NAME: "your_schema_name"
   
-  # Databricks Configuration
+  # Databricks Configuration (workspace hostname auto-detected in cloud)
   DATABRICKS_PROFILE: "your_profile_name"
-  WORKSPACE_HOSTNAME: "your-workspace-hostname.azuredatabricks.net"
   
   # Genie Configuration
   GENIE_SPACE_ID: "your_genie_space_id"
+  
+  # Knowledge Assistant Configuration
+  KNOWLEDGE_ASSISTANT_ENDPOINT_ID: "your_knowledge_assistant_endpoint_id"
   
   # Optional: Additional environment variables
   # DATABRICKS_TOKEN: "your_token_if_needed"
