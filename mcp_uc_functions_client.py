@@ -84,7 +84,7 @@ class UCFunctionsMCPClient:
                     "tool_used": "UC Functions MCP"
                 }
             except Exception as e:
-                st.warning(f"⚠️ MCP call failed, trying direct UC function call: {e}")
+                st.info("ℹ️ UC Functions MCP server unavailable, trying direct database connection...")
         
         # Fallback to direct UC function call
         try:
@@ -108,10 +108,10 @@ class UCFunctionsMCPClient:
         except Exception as e:
             return {
                 "success": False,
-                "error": str(e),
+                "error": f"Unable to retrieve data from UC Functions. {str(e)}",
                 "function_name": function_name,
                 "arguments": kwargs,
-                "tool_used": "UC Functions Direct"
+                "tool_used": "UC Functions (Unavailable)"
             }
     
     def lookup_member(self, input_id: str) -> Dict[str, Any]:

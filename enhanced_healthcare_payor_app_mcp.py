@@ -123,6 +123,48 @@ class EnhancedHealthcarePayorAgentMCP:
             st.error(f"❌ Failed to setup agent: {e}")
             st.stop()
     
+    def _clean_response_content(self, content: str) -> str:
+        """Clean up response content to remove technical clutter"""
+        import re
+        
+        # Remove function call tags
+        content = re.sub(r'<function=.*?>\{.*?\}</function>', '', content)
+        content = re.sub(r'<function_output>', '', content)
+        content = re.sub(r'</function_output>', '', content)
+        
+        # Remove duplicate sections
+        lines = content.split('\n')
+        cleaned_lines = []
+        seen_sections = set()
+        
+        for line in lines:
+            # Skip empty lines and technical markers
+            if not line.strip() or line.strip().startswith('<') or 'function=' in line:
+                continue
+                
+            # Skip duplicate table headers
+            if 'Claim ID' in line and 'Member ID' in line and 'Provider ID' in line:
+                if 'table_header' in seen_sections:
+                    continue
+                seen_sections.add('table_header')
+            
+            # Skip duplicate explanations
+            if 'However, since the previous output was empty' in line:
+                continue
+            if 'I hope this alternative result helps' in line:
+                continue
+            if 'Please note that the claim amounts are subject to audit' in line:
+                continue
+                
+            cleaned_lines.append(line)
+        
+        # Join lines and clean up extra whitespace
+        cleaned_content = '\n'.join(cleaned_lines)
+        cleaned_content = re.sub(r'\n\s*\n\s*\n', '\n\n', cleaned_content)  # Remove multiple newlines
+        cleaned_content = cleaned_content.strip()
+        
+        return cleaned_content
+    
     def chat(self, user_input: str) -> str:
         """Enhanced chat with MCP tools"""
         try:
@@ -143,7 +185,14 @@ class EnhancedHealthcarePayorAgentMCP:
                 openai_tools.append(tool_spec)
             
             # Prepare messages
-            messages = [{"role": "system", "content": "You are a helpful AI assistant for healthcare payor operations. Use the available tools to help users with member inquiries, claims processing, and provider management."}]
+            messages = [{"role": "system", "content": """You are a helpful AI assistant for healthcare payor operations. 
+            When responding to users:
+            1. Show only the final, clean results
+            2. Do not display technical function calls or internal processing details
+            3. Present data in a clear, readable format
+            4. Avoid duplicate information or redundant explanations
+            5. Be concise and professional
+            Use the available tools to help users with member inquiries, claims processing, and provider management."""}]
             
             # Add conversation history
             for msg in self.memory[-10:]:  # Keep last 10 messages
@@ -184,11 +233,19 @@ class EnhancedHealthcarePayorAgentMCP:
                                 "content": result
                             })
                         except Exception as e:
+                            # Show user-friendly error messages based on tool type
+                            if "uc_functions" in tool_name.lower():
+                                error_msg = f"Unable to find data in UC Functions database. Trying alternative data sources..."
+                            elif "genie" in tool_name.lower():
+                                error_msg = f"Genie analysis unavailable. Trying other methods..."
+                            else:
+                                error_msg = f"Tool temporarily unavailable. Trying alternative approach..."
+                            
                             tool_results.append({
                                 "tool_call_id": tool_call.id,
                                 "role": "tool", 
                                 "name": tool_name,
-                                "content": f"Error: {str(e)}"
+                                "content": error_msg
                             })
                     else:
                         tool_results.append({
@@ -208,6 +265,14 @@ class EnhancedHealthcarePayorAgentMCP:
                 )
                 
                 final_content = final_response.choices[0].message.content
+                
+                # Clean up the response to remove technical clutter
+                final_content = self._clean_response_content(final_content)
+                
+                # Add success message if Genie was used successfully
+                successful_tools = [result for result in tool_results if "genie" in result.get("name", "").lower() and "error" not in str(result.get("content", "")).lower()]
+                if successful_tools:
+                    final_content = f"✅ Found the answer using Genie AI analysis:\n\n{final_content}"
                 
                 # Add to memory
                 self.memory.extend(tool_results)
