@@ -56,6 +56,10 @@ KNOWLEDGE_ASSISTANT_ENDPOINT_ID = os.getenv("KNOWLEDGE_ASSISTANT_ENDPOINT_ID", K
 if not WORKSPACE_HOSTNAME or WORKSPACE_HOSTNAME == "":
     WORKSPACE_HOSTNAME = "auto-detect"
 
+# In cloud environments, set DATABRICKS_PROFILE to auto-detect if not provided
+if not DATABRICKS_PROFILE or DATABRICKS_PROFILE == "":
+    DATABRICKS_PROFILE = "auto-detect"
+
 # =============================================================================
 # CONFIGURATION VALIDATION
 # =============================================================================
@@ -65,14 +69,15 @@ def validate_config():
     required_configs = {
         "CATALOG_NAME": CATALOG_NAME,
         "SCHEMA_NAME": SCHEMA_NAME,
-        "DATABRICKS_PROFILE": DATABRICKS_PROFILE,
         "GENIE_SPACE_ID": GENIE_SPACE_ID,
         "KNOWLEDGE_ASSISTANT_ENDPOINT_ID": KNOWLEDGE_ASSISTANT_ENDPOINT_ID
     }
     
-    # WORKSPACE_HOSTNAME is optional - can be auto-detected in cloud environments
+    # WORKSPACE_HOSTNAME and DATABRICKS_PROFILE are optional - can be auto-detected in cloud environments
     if WORKSPACE_HOSTNAME and WORKSPACE_HOSTNAME != "auto-detect":
         required_configs["WORKSPACE_HOSTNAME"] = WORKSPACE_HOSTNAME
+    if DATABRICKS_PROFILE and DATABRICKS_PROFILE != "auto-detect":
+        required_configs["DATABRICKS_PROFILE"] = DATABRICKS_PROFILE
     
     missing_configs = [key for key, value in required_configs.items() if not value]
     

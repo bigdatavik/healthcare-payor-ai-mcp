@@ -65,7 +65,11 @@ class EnhancedHealthcarePayorAgentMCP:
         """Setup MCP clients"""
         try:
             # Initialize workspace client
-            self.workspace_client = WorkspaceClient(profile=DATABRICKS_PROFILE)
+            if DATABRICKS_PROFILE == "auto-detect":
+                # In cloud environments, let the SDK auto-detect the profile
+                self.workspace_client = WorkspaceClient()
+            else:
+                self.workspace_client = WorkspaceClient(profile=DATABRICKS_PROFILE)
             st.success("✅ Databricks workspace client initialized")
             
             # Initialize Genie MCP client
@@ -344,7 +348,10 @@ def create_mcp_status_dashboard():
         
         st.markdown("#### Knowledge Assistant")
         try:
-            knowledge_client = get_knowledge_assistant_mcp_client(WorkspaceClient(profile=DATABRICKS_PROFILE))
+            if DATABRICKS_PROFILE == "auto-detect":
+                knowledge_client = get_knowledge_assistant_mcp_client(WorkspaceClient())
+            else:
+                knowledge_client = get_knowledge_assistant_mcp_client(WorkspaceClient(profile=DATABRICKS_PROFILE))
             knowledge_health = knowledge_client.get_health_status()
             
             if knowledge_health["status"] == "healthy":

@@ -28,7 +28,11 @@ class GenieMCPClient:
         self.mcp_url = f"https://{workspace_hostname}/api/2.0/mcp/genie/{genie_space_id}"
         
         # Initialize workspace client
-        self.workspace_client = WorkspaceClient(profile=profile)
+        if profile == "auto-detect":
+            # In cloud environments, let the SDK auto-detect the profile
+            self.workspace_client = WorkspaceClient()
+        else:
+            self.workspace_client = WorkspaceClient(profile=profile)
         
         # In cloud environments, get hostname from workspace client if not provided
         if not workspace_hostname or workspace_hostname == "auto-detect":

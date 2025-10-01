@@ -12,9 +12,7 @@ env:
   - name: 'SCHEMA_NAME'
     value: 'payer_silver'
   
-  # Databricks Profile (workspace hostname auto-detected in cloud)
-  - name: 'DATABRICKS_PROFILE'
-    value: 'DEFAULT_azure'
+  # Note: DATABRICKS_PROFILE auto-detected in cloud environments
   
   # Genie Configuration
   - name: 'GENIE_SPACE_ID'
