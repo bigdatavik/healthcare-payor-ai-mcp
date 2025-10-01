@@ -65,6 +65,44 @@ healthcare-payor-ai-mcp/
 - **Databricks CLI**: Configured with appropriate profile
 - **Access**: To MCP servers and Unity Catalog functions
 
+### Initial Data Setup
+
+Before running the Healthcare Payor AI System, you need to set up the initial catalog, schema, and tables. Follow these steps:
+
+1. **Set up the base data structure using the medallion architecture:**
+   ```bash
+   # Clone the databricksfirststeps repository for initial setup
+   git clone https://github.com/bigdatavik/databricksfirststeps.git
+   cd databricksfirststeps
+   ```
+
+2. **Run the medallion ETL notebook in Databricks:**
+   - Import `payer_medallion_Load_sparkSQL.ipynb` to your Databricks workspace
+   - Execute the notebook to create the Bronze/Silver/Gold layers
+   - This will create the necessary catalog, schema, and base tables
+
+3. **Create Unity Catalog Functions (UDFs):**
+   ```bash
+   # Navigate to the healthcare system directory
+   cd /path/to/healthcare-payor-ai-mcp
+   
+   # Run the UDF creation notebook
+   # In Databricks, open: notebooks/02_define_uc_tools_payor.ipynb
+   # Execute the notebook to create all required Unity Catalog functions
+   ```
+
+   This notebook will create the following UDFs:
+   - `get_member_details()` - Member information lookup
+   - `get_claims_by_member()` - Claims retrieval by member
+   - `get_provider_info()` - Provider directory search
+   - `search_claims_by_diagnosis()` - Claims search by diagnosis
+   - `get_member_claim_summary()` - Member claim summaries
+
+4. **Verify setup:**
+   - Ensure your catalog and schema are created
+   - Verify all UDFs are accessible
+   - Confirm data is loaded in the Silver/Gold layers
+
 ### Local Development Setup
 
 1. **Clone the repository:**
@@ -369,6 +407,7 @@ Leveraging [Databricks Apps](https://learn.microsoft.com/en-us/azure/databricks/
 - [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
 - [Databricks MCP Python Library](https://pypi.org/project/databricks-mcp/)
 - [Streamlit Documentation](https://docs.streamlit.io/)
+- [Databricks First Steps - Payer Medallion Project](https://github.com/bigdatavik/databricksfirststeps) - Initial data setup and medallion architecture
 
 ## 🤝 Support
 
