@@ -98,10 +98,64 @@ Before running the Healthcare Payor AI System, you need to set up the initial ca
    - `search_claims_by_diagnosis()` - Claims search by diagnosis
    - `get_member_claim_summary()` - Member claim summaries
 
-4. **Verify setup:**
+4. **Create Genie Room for Analytics:**
+   ```bash
+   # In Databricks workspace, navigate to Genie
+   # 1. Go to the Genie section in your Databricks workspace
+   # 2. Click "Create Room" or "New Room"
+   # 3. Configure the room with the following settings:
+   ```
+
+   **Genie Room Configuration:**
+   - **Room Name**: `Healthcare Payor Analytics`
+   - **Description**: `Analytics room for healthcare payor data analysis`
+   - **Data Sources**: Add the following tables from `payer_gold` schema:
+     - `claims_enriched` - Enriched claims data with member and provider details
+     - `member_claim_summary` - Aggregated member claim summaries
+   - **Access Level**: Set appropriate permissions for your team
+
+   **Get the Genie Space ID:**
+   ```bash
+   # After creating the room, copy the Space ID from the URL
+   # The URL will look like: https://your-workspace/workspace/notebooks/.../genie/space/01f06a3068a81406a386e8eaefc74545
+   # Copy the Space ID: 01f06a3068a81406a386e8eaefc74545
+   ```
+
+5. **Set up Knowledge Assistant (Optional):**
+   ```bash
+   # In Databricks workspace, navigate to AI/ML section
+   # 1. Go to "AI/ML" > "Knowledge Assistant" in your Databricks workspace
+   # 2. Create a new Knowledge Assistant endpoint
+   # 3. Configure with your healthcare domain knowledge
+   # 4. Note the endpoint ID for configuration
+   ```
+
+   **Knowledge Assistant Configuration:**
+   - **Endpoint Name**: `Healthcare Payor Knowledge Assistant`
+   - **Description**: `Knowledge base for healthcare payor operations and FAQs`
+   - **Data Sources**: Upload relevant healthcare payor documentation
+   - **Model**: Select appropriate foundation model for your use case
+
+6. **Update Configuration with MCP Server IDs:**
+   ```bash
+   # Update app.yaml with your MCP server IDs
+   # Edit the following values in app.yaml:
+   env:
+     - name: 'GENIE_SPACE_ID'
+       value: 'your-actual-genie-space-id'  # Replace with your Genie Space ID
+     - name: 'KNOWLEDGE_ASSISTANT_ENDPOINT_ID'
+       value: 'your-actual-endpoint-id'     # Replace with your Knowledge Assistant endpoint ID
+   
+   # Also update config.py for local development:
+   # Edit config.py and update both GENIE_SPACE_ID and KNOWLEDGE_ASSISTANT_ENDPOINT_ID
+   ```
+
+7. **Verify setup:**
    - Ensure your catalog and schema are created
    - Verify all UDFs are accessible
    - Confirm data is loaded in the Silver/Gold layers
+   - Test Genie room access with sample queries
+   - Verify Space ID is correctly configured in both app.yaml and config.py
 
 ### Local Development Setup
 
@@ -353,6 +407,24 @@ The application is designed to leverage [Databricks Apps](https://learn.microsof
    - Run `databricks auth login` to refresh tokens
    - Verify profile name matches configuration
    - Check workspace permissions
+
+### Common Issues & Troubleshooting
+
+#### **Genie Room Issues**
+- **"Genie Space not found"**: Verify the Space ID is correct in both `app.yaml` and `config.py`
+- **"No data available"**: Ensure `claims_enriched` and `member_claim_summary` tables exist in `payer_gold` schema
+- **"Access denied"**: Check that the Genie room has proper permissions for your workspace user
+- **"Room not accessible"**: Verify the room is published and not in draft mode
+
+#### **Configuration Issues**
+- **"Invalid Space ID"**: Space ID should be a 32-character hexadecimal string (e.g., `01f06a3068a81406a386e8eaefc74545`)
+- **"Environment variables not loaded"**: Restart the application after updating `app.yaml`
+- **"MCP server unavailable"**: Check workspace connectivity and authentication
+
+#### **Data Issues**
+- **"Tables not found"**: Run the medallion ETL notebook first to create the required tables
+- **"UDFs not accessible"**: Execute the `02_define_uc_tools_payor.ipynb` notebook
+- **"Empty results"**: Verify data is loaded in the Silver/Gold layers
 
 ### Debug Mode
 ```python
