@@ -63,28 +63,30 @@ This system leverages [Databricks managed MCP servers](https://learn.microsoft.c
 
 | Server Type | Purpose | URL Pattern | Authentication | Data Access |
 |-------------|---------|-------------|----------------|-------------|
-| **Genie (Managed)** | Structured data queries | `/api/2.0/mcp/genie/{space_id}` | OAuth via Databricks SDK | Unity Catalog tables |
-| **UC Functions (Managed)** | Custom business logic | `/api/2.0/mcp/functions/{catalog}/{schema}` | OAuth via Databricks SDK | Unity Catalog functions |
-| **Knowledge Assistant (Agent Bricks)** | Document analysis | Agent Bricks serving endpoint | API key authentication | Vector search indexes |
+| **Genie (Managed)** | Natural language conversations & analytics | `/api/2.0/mcp/genie/{space_id}` | OAuth via Databricks SDK | Unity Catalog tables |
+| **UC Functions (Managed)** | Structured data queries from tables | `/api/2.0/mcp/functions/{catalog}/{schema}` | OAuth via Databricks SDK | Unity Catalog functions |
+| **Knowledge Assistant (Agent Bricks)** | Unstructured data & document analysis | Agent Bricks serving endpoint | API key authentication | Vector search indexes |
 
 ### **How MCP Servers and Agent Bricks Work Together**
 
 The Healthcare Payor AI System uses a **multi-component approach** where each service handles specific data types:
 
-1. **Structured Data Queries** → Genie MCP Server
-   - Member information, claims data, provider details
-   - Natural language to SQL conversion
-   - Advanced analytics and insights
+1. **Natural Language Conversations & Analytics** → Genie MCP Server
+   - Conversational AI for natural language interactions
+   - Advanced analytics and data insights
+   - Natural language to SQL conversion for complex queries
 
-2. **Business Logic Operations** → Unity Catalog Functions MCP Server
-   - Custom Python/SQL functions
-   - Data validation and processing
+2. **Structured Data Operations** → Unity Catalog Functions MCP Server
+   - Direct access to member information, claims data, provider details
+   - Custom Python/SQL functions for structured data
+   - Data validation and processing from tables
    - Complex business rules implementation
 
-3. **Document Knowledge** → Agent Bricks Knowledge Assistant
+3. **Unstructured Data & Document Knowledge** → Agent Bricks Knowledge Assistant
    - Policy documents, FAQs, procedures
-   - RAG-based document search
-   - Contextual knowledge retrieval
+   - RAG-based document search and analysis
+   - Contextual knowledge retrieval from unstructured sources
+   - Internet lookup capabilities for external information
 
 ### **MCP Server and Agent Bricks URL Configuration**
 
@@ -159,9 +161,9 @@ claims_data = uc_functions_client.call_tool("get_claims_by_member", {"member_id"
 
 The system implements intelligent fallback mechanisms:
 
-1. **Primary**: Genie MCP Server for structured data queries
-2. **Fallback**: Unity Catalog Functions for direct data access
-3. **Knowledge**: Knowledge Assistant for document-based queries
+1. **Primary**: Genie MCP Server for natural language conversations and analytics
+2. **Fallback**: Unity Catalog Functions for structured data queries from tables
+3. **Knowledge**: Knowledge Assistant for unstructured data and document analysis
 
 This ensures high availability and comprehensive coverage of user queries.
 
