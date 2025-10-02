@@ -401,8 +401,13 @@ The system is optimized for deployment on [Databricks Apps](https://learn.micros
    # Update environment variables in /Users/vik.malhotra/hospital_ai_system/app.yaml.example
    ```
 
-3. **Deploy using Databricks CLI:**
+3. **Clone the repository and deploy:**
    ```bash
+   # Clone the repository with mcp branch
+   git clone https://github.com/bigdatavik/hospital-ai-system.git -b mcp
+   cd hospital-ai-system
+   
+   # Deploy using Databricks CLI
    databricks apps deploy
    ```
 
