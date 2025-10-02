@@ -24,13 +24,15 @@ class HealthcarePayorDemo:
                 "Show me the top 5 claims by amount",
                 "What is the total claims cost for this quarter?",
                 "Show me member demographics by age group",
-                "What are the most common procedure codes?"
+                "What are the most common procedure codes?",
+                "Show me all claims for member ID 1001",
+                "What is the claims summary for member ID 1001?"
             ],
             "uc_functions": [
                 "Lookup member information for member ID 1001",
                 "Find all claims for member ID 1001 in the last 6 months",
                 "Search for cardiology providers in New York",
-                "Check member eligibility for member ID 2001",
+                "Check member eligibility for member ID 1001",
                 "Show provider network coverage for zip code 10001"
             ],
             "knowledge_assistant": [
@@ -122,14 +124,14 @@ class HealthcarePayorDemo:
         """Run a specific scenario demo"""
         scenarios = {
             "member_inquiry": [
-                "Find member Sarah Johnson, member ID 2001",
-                "Show recent claims for this member",
-                "What is her current coverage plan?",
+                "Find member information for member ID 1001",
+                "Show recent claims for member ID 1001",
+                "What is the current coverage plan for member ID 1001?",
                 "What is our policy on out-of-network coverage?"
             ],
             "claims_processing": [
-                "Show me pending claims for review",
-                "Verify member eligibility for claim 12345",
+                "Show me pending claims for member ID 1001",
+                "Verify member eligibility for member ID 1001",
                 "Is this provider in our network?",
                 "Does this procedure require pre-authorization?"
             ],
@@ -137,7 +139,9 @@ class HealthcarePayorDemo:
                 "What are our total claims costs this quarter?",
                 "How do costs compare to last quarter?",
                 "What is our member satisfaction trend?",
-                "Which providers have the highest utilization?"
+                "Which providers have the highest utilization?",
+                "Show me the claims analysis for member ID 1001",
+                "What is the cost breakdown for member ID 1001?"
             ]
         }
         
