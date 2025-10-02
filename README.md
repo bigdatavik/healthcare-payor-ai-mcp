@@ -1,7 +1,5 @@
 # Healthcare Payor AI System with MCP Integration
 
-<img src="https://raw.githubusercontent.com/databricks-industry-solutions/.github/main/profile/solacc_logo.png" width="600px">
-
 ## 🏥 Business Problem
 
 Healthcare payors face significant challenges in managing member inquiries, claims processing, and provider management at scale. This solution leverages AI and **Model Context Protocol (MCP)** to create an intelligent healthcare payor system that provides:
