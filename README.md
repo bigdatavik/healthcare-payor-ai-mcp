@@ -173,7 +173,6 @@ healthcare-payor-ai-mcp/
 ├── enhanced_healthcare_payor_app_mcp.py    # Main Streamlit application
 ├── config.py                               # Centralized configuration
 ├── app.yaml                               # Databricks Apps deployment config
-├── app.yaml.example                       # Deployment template
 ├── mcp_genie_client.py                    # Genie MCP client
 ├── mcp_uc_functions_client.py             # UC Functions MCP client
 ├── mcp_knowledge_assistant_client.py      # Knowledge Assistant MCP client
@@ -398,9 +397,8 @@ The system is optimized for deployment on [Databricks Apps](https://learn.micros
 
 2. **Configure deployment:**
    ```bash
-   # Copy and edit the deployment configuration
-   cp app.yaml.example app.yaml
-   # Update environment variables in app.yaml
+   # Use the deployment configuration template
+   # Update environment variables in /Users/vik.malhotra/hospital_ai_system/app.yaml.example
    ```
 
 3. **Deploy using Databricks CLI:**
