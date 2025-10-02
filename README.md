@@ -15,7 +15,8 @@ Healthcare payors face significant challenges in managing member inquiries, clai
 This implementation integrates **Managed MCP (Model Context Protocol) servers** with a comprehensive Healthcare Payor AI System, providing seamless access to Databricks services through standardized MCP interfaces. The system is designed for deployment on [Databricks Apps](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/), eliminating the need for separate infrastructure while maintaining enterprise-grade security and compliance.
 
 ### Key Features
-- **MCP Server Integration**: Genie, Unity Catalog Functions, and Knowledge Assistant
+- **MCP Server Integration**: Genie and Unity Catalog Functions MCP servers
+- **Agent Bricks Integration**: Knowledge Assistant for document analysis
 - **Centralized Configuration**: Easy local/cloud deployment switching
 - **Clean User Interface**: Professional responses without technical clutter
 - **Cloud-Native**: Built for Databricks Apps deployment
@@ -23,7 +24,7 @@ This implementation integrates **Managed MCP (Model Context Protocol) servers** 
 
 ## 🔧 MCP Servers Integrated
 
-This system leverages [Databricks managed MCP servers](https://learn.microsoft.com/en-us/azure/databricks/generative-ai/mcp/managed-mcp) to provide instant access to data and tools without building custom connections. The managed servers act as bridges that let AI agents access external data and tools seamlessly.
+This system leverages [Databricks managed MCP servers](https://learn.microsoft.com/en-us/azure/databricks/generative-ai/mcp/managed-mcp) to provide instant access to data and tools without building custom connections. The managed servers act as bridges that let AI agents access external data and tools seamlessly. Additionally, it integrates with Agent Bricks for document analysis capabilities.
 
 ### 1. Genie MCP Server (Managed)
 - **Purpose**: Natural language queries for structured data analysis
@@ -48,27 +49,27 @@ This system leverages [Databricks managed MCP servers](https://learn.microsoft.c
   - `search_claims_by_diagnosis()` - Claims search by diagnosis
   - `get_member_claim_summary()` - Member claim summaries
 
-### 3. Knowledge Assistant MCP Server (Custom)
+### 3. Knowledge Assistant Client (Agent Bricks)
 - **Purpose**: Unstructured text analysis and document processing
 - **Capabilities**: FAQ retrieval, document search, knowledge extraction
-- **Type**: Custom MCP Server (Agent Bricks Knowledge Assistant)
-- **Integration**: AI-powered knowledge management using Agent Bricks
+- **Type**: Agent Bricks Integration (Not MCP Server)
+- **Integration**: AI-powered knowledge management using Agent Bricks serving endpoints
 - **Data Sources**: Healthcare payor documentation (.txt files)
 - **Features**: RAG-based responses with citations, quality improvement through labeling sessions
 
 ## 🏗️ MCP Server Architecture
 
-### **Managed vs Custom MCP Servers**
+### **Managed MCP Servers vs Agent Bricks Integration**
 
 | Server Type | Purpose | URL Pattern | Authentication | Data Access |
 |-------------|---------|-------------|----------------|-------------|
 | **Genie (Managed)** | Structured data queries | `/api/2.0/mcp/genie/{space_id}` | OAuth via Databricks SDK | Unity Catalog tables |
 | **UC Functions (Managed)** | Custom business logic | `/api/2.0/mcp/functions/{catalog}/{schema}` | OAuth via Databricks SDK | Unity Catalog functions |
-| **Knowledge Assistant (Custom)** | Document analysis | Agent Bricks endpoint | API key authentication | Vector search indexes |
+| **Knowledge Assistant (Agent Bricks)** | Document analysis | Agent Bricks serving endpoint | API key authentication | Vector search indexes |
 
-### **How MCP Servers Work Together**
+### **How MCP Servers and Agent Bricks Work Together**
 
-The Healthcare Payor AI System uses a **multi-server approach** where each MCP server handles specific data types:
+The Healthcare Payor AI System uses a **multi-component approach** where each service handles specific data types:
 
 1. **Structured Data Queries** → Genie MCP Server
    - Member information, claims data, provider details
@@ -80,14 +81,14 @@ The Healthcare Payor AI System uses a **multi-server approach** where each MCP s
    - Data validation and processing
    - Complex business rules implementation
 
-3. **Document Knowledge** → Knowledge Assistant MCP Server
+3. **Document Knowledge** → Agent Bricks Knowledge Assistant
    - Policy documents, FAQs, procedures
    - RAG-based document search
    - Contextual knowledge retrieval
 
-### **MCP Server URL Configuration**
+### **MCP Server and Agent Bricks URL Configuration**
 
-The system automatically constructs MCP server URLs based on workspace configuration:
+The system automatically constructs service URLs based on workspace configuration:
 
 ```python
 # Genie MCP Server URL
@@ -96,7 +97,7 @@ genie_url = f"https://{workspace_hostname}/api/2.0/mcp/genie/{genie_space_id}"
 # Unity Catalog Functions MCP Server URL  
 uc_functions_url = f"https://{workspace_hostname}/api/2.0/mcp/functions/{catalog}/{schema}"
 
-# Knowledge Assistant (via Agent Bricks endpoint)
+# Knowledge Assistant (Agent Bricks serving endpoint)
 knowledge_assistant_endpoint = f"https://{workspace_hostname}/serving-endpoints/{endpoint_id}/invocations"
 ```
 
