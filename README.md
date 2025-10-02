@@ -208,8 +208,9 @@ Before running the Healthcare Payor AI System, you need to set up the initial ca
 
 3. **Create Unity Catalog Functions (UDFs):**
    ```bash
-   # Navigate to the healthcare system directory
-   cd /path/to/healthcare-payor-ai-mcp
+   # Clone the repository with mcp branch
+   git clone https://github.com/bigdatavik/hospital-ai-system.git -b mcp
+   cd hospital-ai-system
    
    # Run the UDF creation notebook
    # In Databricks, open: notebooks/02_define_uc_tools_payor.ipynb
