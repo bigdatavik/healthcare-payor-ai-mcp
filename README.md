@@ -65,7 +65,7 @@ This system leverages [Databricks managed MCP servers](https://learn.microsoft.c
 |-------------|---------|-------------|----------------|-------------|
 | **Genie (Managed)** | Natural language conversations & analytics | `/api/2.0/mcp/genie/{space_id}` | OAuth via Databricks SDK | Unity Catalog tables |
 | **UC Functions (Managed)** | Structured data queries from tables | `/api/2.0/mcp/functions/{catalog}/{schema}` | OAuth via Databricks SDK | Unity Catalog functions |
-| **Knowledge Assistant (Agent Bricks)** | Unstructured data & document analysis | Agent Bricks serving endpoint | API key authentication | Vector search indexes |
+| **Knowledge Assistant (Agent Bricks)** | Unstructured data documents | Agent Bricks serving endpoint | API key authentication | Vector search indexes |
 
 ### **How MCP Servers and Agent Bricks Work Together**
 
@@ -82,11 +82,10 @@ The Healthcare Payor AI System uses a **multi-component approach** where each se
    - Data validation and processing from tables
    - Complex business rules implementation
 
-3. **Unstructured Data & Document Knowledge** → Agent Bricks Knowledge Assistant
+3. **Unstructured Data Documents** → Agent Bricks Knowledge Assistant
    - Policy documents, FAQs, procedures
-   - RAG-based document search and analysis
-   - Contextual knowledge retrieval from unstructured sources
-   - Internet lookup capabilities for external information
+   - RAG-based document search
+   - Contextual knowledge retrieval from documents
 
 ### **MCP Server and Agent Bricks URL Configuration**
 
@@ -163,7 +162,7 @@ The system implements intelligent fallback mechanisms:
 
 1. **Primary**: Genie MCP Server for natural language conversations and analytics
 2. **Fallback**: Unity Catalog Functions for structured data queries from tables
-3. **Knowledge**: Knowledge Assistant for unstructured data and document analysis
+3. **Knowledge**: Knowledge Assistant for unstructured data documents
 
 This ensures high availability and comprehensive coverage of user queries.
 
