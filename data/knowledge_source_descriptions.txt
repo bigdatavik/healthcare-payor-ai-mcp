@@ -15,7 +15,7 @@ DETAILED CONTENT DESCRIPTION:
    - Email Correspondence: Formal written communications including appeals and complaints
 
 2. MEMBER INFORMATION CAPTURED:
-   - Member IDs (M123456789, M987654321, M456789123, M789123456, M321654987)
+   - Member IDs (1001, 1002, 1003)
    - Contact dates and interaction duration
    - Member satisfaction scores (1-5 scale)
    - Sentiment analysis (frustrated, confused, satisfied, urgent)
@@ -154,9 +154,9 @@ CROSS-DOCUMENT RELATIONSHIPS
 ============================
 
 MEMBER JOURNEY CONNECTIONS:
-- Member M123456789: Billing issue (CS001) + Preventive visit authorization (PA001)
-- Member M987654321: Out-of-network MRI issue (CS002) + Gallbladder surgery authorization (PA002)
-- Member M456789123: Surgery appeal email (CS003) + Denied knee surgery authorization (PA003)
+- Member 1001: Billing issue (CS001) + Preventive visit authorization (PA001)
+- Member 1002: Out-of-network MRI issue (CS002) + Gallbladder surgery authorization (PA002)
+- Member 1003: Surgery appeal email (CS003) + Denied knee surgery authorization (PA003)
 
 INTEGRATED USE CASES:
 - Complete member experience analysis from service call to authorization outcome

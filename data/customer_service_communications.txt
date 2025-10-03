@@ -1,7 +1,7 @@
 CUSTOMER SERVICE COMMUNICATION #CS001
 ==========================================
 Date: January 15, 2024
-Member ID: M123456789
+Member ID: 1001
 Type: Phone Call Transcript
 Duration: 8 minutes
 Agent: AGENT_001
@@ -32,7 +32,7 @@ KEY ISSUES:
 CUSTOMER SERVICE COMMUNICATION #CS002
 ==========================================
 Date: January 16, 2024
-Member ID: M987654321
+Member ID: 1002
 Type: Chat Log
 Duration: 12 minutes
 Agent: AGENT_002
@@ -63,7 +63,7 @@ KEY ISSUES:
 CUSTOMER SERVICE COMMUNICATION #CS003
 ==========================================
 Date: January 17, 2024
-Member ID: M456789123
+Member ID: 1003
 Type: Email Correspondence
 Agent: AGENT_003
 Sentiment: Urgent appeal
@@ -89,7 +89,7 @@ Please expedite the review of this appeal as I am in significant pain and the su
 
 Sincerely,
 Sarah Johnson
-Member ID: M456789123
+Member ID: 1003
 
 KEY ISSUES:
 - Surgery authorization denied
@@ -101,7 +101,7 @@ KEY ISSUES:
 CUSTOMER SERVICE COMMUNICATION #CS004
 ==========================================
 Date: January 18, 2024
-Member ID: M789123456
+Member ID: 1001
 Type: Phone Call Transcript
 Duration: 15 minutes
 Agent: AGENT_004
@@ -136,7 +136,7 @@ KEY ISSUES:
 CUSTOMER SERVICE COMMUNICATION #CS005
 ==========================================
 Date: January 19, 2024
-Member ID: M321654987
+Member ID: 1002
 Type: Chat Log
 Duration: 6 minutes
 Agent: AGENT_005

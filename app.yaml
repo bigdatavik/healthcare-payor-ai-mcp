@@ -21,3 +21,7 @@ env:
   # Knowledge Assistant Configuration
   - name: 'KNOWLEDGE_ASSISTANT_ENDPOINT_ID'
     value: 'ka-d0808962-endpoint'
+  
+  # AI Model Configuration
+  - name: 'AI_MODEL_NAME'
+    value: 'databricks-meta-llama-3-1-8b-instruct'

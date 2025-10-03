@@ -1,6 +1,6 @@
 PRIOR AUTHORIZATION DOCUMENT #PA001
 ==========================================
-Member ID: M123456789
+Member ID: 1001
 Provider: Dr. Sarah Martinez, MD (PROV_001)
 Date Submitted: January 15, 2024
 Procedure Code: CPT_99213
@@ -32,7 +32,7 @@ Standard preventive visit approved. All criteria met for preventive care coverag
 
 PRIOR AUTHORIZATION DOCUMENT #PA002
 ==========================================
-Member ID: M987654321
+Member ID: 1002
 Provider: Dr. Michael Chen, MD (PROV_002)
 Date Submitted: January 16, 2024
 Procedure Code: CPT_47562
@@ -65,7 +65,7 @@ Laparoscopic cholecystectomy approved. Clear medical necessity documented. Stand
 
 PRIOR AUTHORIZATION DOCUMENT #PA003
 ==========================================
-Member ID: M456789123
+Member ID: 1003
 Provider: Dr. Jennifer Lee, MD (PROV_003)
 Date Submitted: January 17, 2024
 Procedure Code: CPT_29881
@@ -98,7 +98,7 @@ While MRI shows meniscal tear, documentation does not clearly demonstrate adequa
 
 PRIOR AUTHORIZATION DOCUMENT #PA004
 ==========================================
-Member ID: M789123456
+Member ID: 1001
 Provider: Dr. Robert Kim, MD (PROV_004)
 Date Submitted: January 18, 2024
 Procedure Code: CPT_99291
@@ -131,7 +131,7 @@ Critical care services approved for acute STEMI. Standard of care for acute myoc
 
 PRIOR AUTHORIZATION DOCUMENT #PA005
 ==========================================
-Member ID: M321654987
+Member ID: 1002
 Provider: Dr. Lisa Thompson, MD (PROV_005)
 Date Submitted: January 19, 2024
 Procedure Code: CPT_99213

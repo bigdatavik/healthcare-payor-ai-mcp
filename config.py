@@ -38,6 +38,18 @@ GENIE_SPACE_ID = "01f06a3068a81406a386e8eaefc74545"  # Update this for your Geni
 KNOWLEDGE_ASSISTANT_ENDPOINT_ID = "ka-d0808962-endpoint"  # Update this for your Knowledge Assistant endpoint
 
 # =============================================================================
+# AI MODEL CONFIGURATION
+# =============================================================================
+
+# AI Model Configuration for LLM
+AI_MODEL_NAME = "databricks-meta-llama-3-1-8b-instruct"  # Update this for your preferred model
+
+# Alternative models you can use:
+# - "databricks-meta-llama-3-1-70b-instruct" (larger, more capable)
+# - "databricks-dbrx-instruct" (Databricks optimized model)
+# - "databricks-mixtral-8x7b-instruct" (Mixtral model)
+
+# =============================================================================
 # CLOUD DEPLOYMENT CONFIGURATION
 # =============================================================================
 
@@ -51,6 +63,7 @@ DATABRICKS_PROFILE = os.getenv("DATABRICKS_PROFILE", DATABRICKS_PROFILE)
 WORKSPACE_HOSTNAME = os.getenv("WORKSPACE_HOSTNAME", WORKSPACE_HOSTNAME)
 GENIE_SPACE_ID = os.getenv("GENIE_SPACE_ID", GENIE_SPACE_ID)
 KNOWLEDGE_ASSISTANT_ENDPOINT_ID = os.getenv("KNOWLEDGE_ASSISTANT_ENDPOINT_ID", KNOWLEDGE_ASSISTANT_ENDPOINT_ID)
+AI_MODEL_NAME = os.getenv("AI_MODEL_NAME", AI_MODEL_NAME)
 
 # In cloud environments, set WORKSPACE_HOSTNAME to auto-detect if not provided
 if not WORKSPACE_HOSTNAME or WORKSPACE_HOSTNAME == "":
@@ -70,7 +83,8 @@ def validate_config():
         "CATALOG_NAME": CATALOG_NAME,
         "SCHEMA_NAME": SCHEMA_NAME,
         "GENIE_SPACE_ID": GENIE_SPACE_ID,
-        "KNOWLEDGE_ASSISTANT_ENDPOINT_ID": KNOWLEDGE_ASSISTANT_ENDPOINT_ID
+        "KNOWLEDGE_ASSISTANT_ENDPOINT_ID": KNOWLEDGE_ASSISTANT_ENDPOINT_ID,
+        "AI_MODEL_NAME": AI_MODEL_NAME
     }
     
     # WORKSPACE_HOSTNAME and DATABRICKS_PROFILE are optional - can be auto-detected in cloud environments
@@ -95,3 +109,4 @@ if __name__ == "__main__":
     print(f"Workspace: {WORKSPACE_HOSTNAME}")
     print(f"Genie Space: {GENIE_SPACE_ID}")
     print(f"Knowledge Assistant Endpoint: {KNOWLEDGE_ASSISTANT_ENDPOINT_ID}")
+    print(f"AI Model: {AI_MODEL_NAME}")

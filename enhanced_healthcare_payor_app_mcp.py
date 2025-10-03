@@ -14,6 +14,7 @@ from config import (
     WORKSPACE_HOSTNAME, 
     GENIE_SPACE_ID,
     KNOWLEDGE_ASSISTANT_ENDPOINT_ID,
+    AI_MODEL_NAME,
     validate_config
 )
 
@@ -226,7 +227,7 @@ class EnhancedHealthcarePayorAgentMCP:
             
             # Call LLM with tools
             response = self.llm_client.chat.completions.create(
-                model="databricks-meta-llama-3-1-8b-instruct",
+                model=AI_MODEL_NAME,
                 messages=messages,
                 tools=openai_tools,
                 tool_choice="auto"
@@ -283,7 +284,7 @@ class EnhancedHealthcarePayorAgentMCP:
                 
                 # Get final response
                 final_response = self.llm_client.chat.completions.create(
-                    model="databricks-meta-llama-3-1-8b-instruct",
+                    model=AI_MODEL_NAME,
                     messages=messages
                 )
                 

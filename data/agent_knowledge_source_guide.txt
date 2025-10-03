@@ -8,5 +8,5 @@ PRIOR AUTHORIZATION DOCUMENTS:
 Contains detailed medical authorization requests with clinical documentation, procedure codes (CPT), diagnosis codes (ICD-10), medical necessity justifications, and approval/denial decisions. Includes provider information, urgency levels, and supporting documentation. Use for clinical questions, authorization patterns, procedure coverage, and medical necessity criteria.
 
 CROSS-REFERENCE CAPABILITY:
-Both sources contain overlapping member IDs (M123456789, M987654321, M456789123, M789123456, M321654987) enabling complete member journey analysis from service calls to authorization outcomes.
+Both sources contain overlapping member IDs (1001, 1002, 1003) enabling complete member journey analysis from service calls to authorization outcomes. These IDs directly correspond to Unity Catalog member data for seamless cross-system queries.
 
