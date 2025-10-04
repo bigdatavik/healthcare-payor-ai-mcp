@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Payor AI System - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: white;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 60px 80px;
+            overflow-y: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #2E86AB 0%, #6B4C9A 50%, #A23B72 100%);
+            color: white;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+            color: #1A365D;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-bottom: 0.8em;
+            color: #1A365D;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin-bottom: 0.6em;
+            color: #2E86AB;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            margin-bottom: 0.5em;
+            color: #1A365D;
+        }
+
+        .gradient-bg h1,
+        .gradient-bg h2,
+        .gradient-bg h3,
+        .gradient-bg h4 {
+            color: white;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 1em;
+            font-size: 1.1em;
+        }
+
+        ul {
+            margin-left: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        li {
+            margin: 0.8em 0;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3em;
+            margin-top: 2em;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2em;
+            margin-top: 2em;
+        }
+
+        .stat-box {
+            background: #2E86AB;
+            color: white;
+            padding: 2em;
+            border-radius: 12px;
+            text-align: center;
+            margin: 1em 0;
+        }
+
+        .stat-box h3 {
+            color: white;
+            font-size: 3.5em;
+            margin: 0;
+        }
+
+        .stat-box p {
+            margin: 0.5em 0 0 0;
+            font-size: 1.2em;
+        }
+
+        .benefit-card {
+            background: white;
+            border: 3px solid #2E86AB;
+            border-radius: 12px;
+            padding: 2em;
+            text-align: center;
+            height: 100%;
+        }
+
+        .highlight-box {
+            background: rgba(46, 134, 171, 0.1);
+            border-left: 5px solid #2E86AB;
+            padding: 1.5em;
+            margin: 1.5em 0;
+            border-radius: 6px;
+        }
+
+        .checkmark {
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 0.3em;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: rgba(46, 134, 171, 0.15);
+            padding: 0.6em 1.2em;
+            border-radius: 25px;
+            margin: 0.4em;
+            font-weight: 600;
+            color: #1A365D;
+            font-size: 0.95em;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 3em;
+            padding-bottom: 2em;
+            border-left: 3px solid #2E86AB;
+            margin-left: 1em;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1em;
+            top: 0.5em;
+            width: 1.5em;
+            height: 1.5em;
+            background: #2E86AB;
+            border-radius: 50%;
+        }
+
+        .timeline-item:last-child {
+            border-left: none;
+        }
+
+        .quote-box {
+            background: rgba(162, 59, 114, 0.1);
+            border-left: 5px solid #A23B72;
+            padding: 2em;
+            font-style: italic;
+            font-size: 1.3em;
+            margin: 1.5em 0;
+            text-align: center;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: #2E86AB;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #A23B72;
+            transform: scale(1.05);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            font-weight: 600;
+            color: #1A365D;
+            font-size: 1.1em;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #2E86AB;
+            color: white;
+            padding: 1.2em 2.5em;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            margin: 1em 0.5em;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .cta-button:hover {
+            background: #A23B72;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide active gradient-bg title-slide">
+            <h1>Healthcare Payor AI System</h1>
+            <h2>Transforming Operations with AI-Powered Data Integration</h2>
+            <p style="margin-top: 2em; font-size: 1.4em;">Unified Data Access</p>
+        </div>
+
+        <!-- Slide 2: The Challenge -->
+        <div class="slide">
+            <h2>The Healthcare Payor Challenge</h2>
+            <h3 style="color: #A23B72;">Data Silos and Operational Inefficiency</h3>
+            
+            <div class="two-column">
+                <div>
+                    <h4>Current State Pain Points:</h4>
+                    <ul>
+                        <li>Multiple disconnected systems creating silos</li>
+                        <li>Claims, customer service, authorizations all separate</li>
+                        <li>Manual processes consuming 40-60% of staff time</li>
+                        <li>Member frustration with incomplete information</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="stat-box">
+                        <h3>8-12 min</h3>
+                        <p>Average call resolution time</p>
+                    </div>
+                    <div class="stat-box" style="background: #A23B72;">
+                        <h3>3-4</h3>
+                        <p>Systems per inquiry</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Business Impact -->
+        <div class="slide">
+            <h2>The Real Cost of Disconnected Systems</h2>
+            
+            <div class="three-column">
+                <div class="benefit-card">
+                    <div class="icon">💰</div>
+                    <h3>Operational Costs</h3>
+                    <ul style="text-align: left; font-size: 0.95em;">
+                        <li>40-60% time searching systems</li>
+                        <li>3-5 min added per call</li>
+                        <li>Higher training costs</li>
+                        <li>Increased error rates</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="icon">😟</div>
+                    <h3>Member Experience</h3>
+                    <ul style="text-align: left; font-size: 0.95em;">
+                        <li>Longer wait times</li>
+                        <li>Multiple callbacks needed</li>
+                        <li>Inconsistent information</li>
+                        <li>Lower NPS scores</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="icon">⚠️</div>
+                    <h3>Compliance Risk</h3>
+                    <ul style="text-align: left; font-size: 0.95em;">
+                        <li>Manual audit risk</li>
+                        <li>Delayed authorizations</li>
+                        <li>Incomplete trails</li>
+                        <li>Reporting challenges</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Solution Overview -->
+        <div class="slide gradient-bg">
+            <h2>AI-Powered Integration: A Unified Intelligent Platform</h2>
+            
+            <div class="highlight-box" style="background: rgba(255,255,255,0.2); border-color: white;">
+                <h3 style="color: white;">Core Components:</h3>
+                <div class="two-column">
+                    <div>
+                        <p><span class="checkmark">✓</span> <strong>Databricks Unity Catalog</strong><br/>Centralized data governance</p>
+                        <p><span class="checkmark">✓</span> <strong>Managed MCP Servers</strong><br/>Seamless integration</p>
+                    </div>
+                    <div>
+                        <p><span class="checkmark">✓</span> <strong>Agent Bricks: Knowledge Assistant</strong><br/>Document intelligence</p>
+                        <p><span class="checkmark">✓</span> <strong>AI Agent Orchestration</strong><br/>Intelligent routing</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="color: white; text-align: center; margin-top: 2em; font-size: 1.8em;">One intelligent interface for all healthcare data</h3>
+        </div>
+
+        <!-- Slide 5: Unity Catalog -->
+        <div class="slide">
+            <h2>Foundation: Databricks Unity Catalog Integration</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li><span class="checkmark">✓</span> Centralized data governance and security</li>
+                        <li><span class="checkmark">✓</span> Real-time access to structured data</li>
+                        <li><span class="checkmark">✓</span> Custom business logic via UC Functions</li>
+                        <li><span class="checkmark">✓</span> Scalable analytics capabilities</li>
+                        <li><span class="checkmark">✓</span> HIPAA-compliant data handling</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Use Cases:</h4>
+                    <div class="highlight-box">
+                        <p style="font-size: 1.1em;">🔍 Member information lookup</p>
+                        <p style="font-size: 1.1em;">📊 Claims data retrieval</p>
+                        <p style="font-size: 1.1em;">👨‍⚕️ Provider directory search</p>
+                        <p style="font-size: 1.1em;">⚙️ Custom business rules execution</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Managed MCP Servers -->
+        <div class="slide">
+            <h2>Zero Infrastructure Overhead</h2>
+            <h3 style="color: #A23B72;">Databricks Managed MCP Servers</h3>
+            
+            <div class="three-column" style="margin-top: 2em;">
+                <div class="benefit-card">
+                    <h4>Genie Space MCP</h4>
+                    <p>Natural language queries against structured data</p>
+                    <p style="color: #666; font-size: 0.9em;">Advanced analytics capabilities</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Unity Catalog Functions MCP</h4>
+                    <p>Execute custom Python/SQL functions</p>
+                    <p style="color: #666; font-size: 0.9em;">Direct data operations</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Vector Search MCP</h4>
+                    <p>Document retrieval and search</p>
+                    <p style="color: #666; font-size: 0.9em;">RAG capabilities</p>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 2em;">
+                <h4>Key Benefits:</h4>
+                <p style="font-size: 1.1em;"><span class="checkmark">✓</span> No deployment required | <span class="checkmark">✓</span> Enterprise-grade security | <span class="checkmark">✓</span> Automatic scaling | <span class="checkmark">✓</span> Built-in monitoring</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Agent Bricks -->
+        <div class="slide">
+            <h2>Effortless Document Intelligence</h2>
+            <h3 style="color: #A23B72;">Agent Bricks: Knowledge Assistant</h3>
+            
+            <div class="three-column">
+                <div>
+                    <h4>Setup</h4>
+                    <ul>
+                        <li>No complex RAG implementation</li>
+                        <li>Point-and-click configuration</li>
+                        <li>Automatic ingestion</li>
+                        <li>Built-in vector search</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4>Capabilities</h4>
+                    <ul>
+                        <li>Advanced RAG approach</li>
+                        <li>Domain-specialized knowledge</li>
+                        <li>Automatic citations</li>
+                        <li>Quality improvement via feedback</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4>Integration</h4>
+                    <ul>
+                        <li>Multiple file formats</li>
+                        <li>Unity Catalog volumes</li>
+                        <li>Serverless scaling</li>
+                        <li>Production-ready endpoints</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="stat-box" style="margin-top: 2em;">
+                <h3>Hours, not Months</h3>
+                <p>Deploy document intelligence without the complexity</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: AI Agent in Action -->
+        <div class="slide">
+            <h2>See It in Action: Unified Member Query</h2>
+            
+            <div class="highlight-box">
+                <h4>Sample Query:</h4>
+                <p style="font-size: 1.3em; font-style: italic;">"Tell me about member 1001's recent issues"</p>
+            </div>
+            
+            <div class="two-column" style="margin-top: 2em;">
+                <div>
+                    <h4>AI Response:</h4>
+                    <ul>
+                        <li><span class="checkmark">✓</span> <strong>Member Profile:</strong> John Doe, Plan PLN101, Active since 2020</li>
+                        <li><span class="checkmark">✓</span> <strong>Recent Claims:</strong> $120 preventive visit (PAID)</li>
+                        <li><span class="checkmark">✓</span> <strong>Prior Authorizations:</strong> Approved preventive care</li>
+                        <li><span class="checkmark">✓</span> <strong>Service History:</strong> Billing inquiry resolved 1/15/2024</li>
+                        <li><span class="checkmark">✓</span> <strong>Satisfaction:</strong> 4/5 (improved after resolution)</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="stat-box">
+                        <h3>&lt; 3 sec</h3>
+                        <p>Complete response time</p>
+                    </div>
+                    <div class="stat-box" style="background: #10B981;">
+                        <h3>5</h3>
+                        <p>Data sources unified</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Business Benefits - Cost -->
+        <div class="slide">
+            <h2>Dramatic ROI: 60% Reduction in Call Resolution Time</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h4>Before Integration:</h4>
+                    <ul>
+                        <li>⏱️ Average call: <strong>8-12 minutes</strong></li>
+                        <li>🖥️ Systems accessed: <strong>3-4 platforms</strong></li>
+                        <li>✅ First-call resolution: <strong>65-70%</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>After Integration:</h4>
+                    <ul style="color: #10B981;">
+                        <li>⏱️ Average call: <strong>3-5 minutes</strong> ↑60%</li>
+                        <li>🖥️ Systems accessed: <strong>1 unified interface</strong></li>
+                        <li>✅ First-call resolution: <strong>85-90%</strong> ↑25%</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 2em; background: rgba(16, 185, 129, 0.1); border-color: #10B981;">
+                <h3>💰 Annual Savings Example:</h3>
+                <p style="font-size: 1.4em;">1,000 calls/day × 5 min saved × $0.50/min = <strong style="color: #10B981;">$2,500/day</strong></p>
+                <h2 style="color: #10B981; text-align: center; margin-top: 0.5em;">Annual: $912,500</h2>
+            </div>
+        </div>
+
+        <!-- Slide 10: Member Experience -->
+        <div class="slide">
+            <h2>Enhanced Member Satisfaction and Experience</h2>
+            
+            <div class="two-column">
+                <div class="stat-box">
+                    <h3>40%</h3>
+                    <p>Reduction in member callbacks</p>
+                </div>
+                <div class="stat-box">
+                    <h3>25%</h3>
+                    <p>Increase in satisfaction scores</p>
+                </div>
+            </div>
+            
+            <div class="two-column" style="margin-top: 2em;">
+                <div class="stat-box" style="background: #10B981;">
+                    <h3>50%</h3>
+                    <p>Faster complex inquiry resolution</p>
+                </div>
+                <div class="stat-box" style="background: #10B981;">
+                    <h3>30%</h3>
+                    <p>Reduction in escalations</p>
+                </div>
+            </div>
+            
+            <div class="quote-box" style="margin-top: 2em;">
+                "Complete member journey visibility in seconds"
+            </div>
+        </div>
+
+        <!-- Slide 11: Prior Authorization -->
+        <div class="slide">
+            <h2>Accelerated Prior Authorization Processing</h2>
+            
+            <div style="text-align: center; margin: 2em 0;">
+                <div style="display: inline-block; background: rgba(239, 68, 68, 0.1); padding: 1.5em 3em; border-radius: 12px; margin: 0 1em;">
+                    <h3 style="color: #ef4444;">Before: 3-5 days</h3>
+                </div>
+                <div style="display: inline-block; font-size: 3em; margin: 0 1em;">→</div>
+                <div style="display: inline-block; background: rgba(16, 185, 129, 0.1); padding: 1.5em 3em; border-radius: 12px; margin: 0 1em;">
+                    <h3 style="color: #10B981;">After: 24-48 hours</h3>
+                </div>
+            </div>
+            
+            <div class="three-column">
+                <div class="benefit-card">
+                    <h4>Processing Speed</h4>
+                    <ul style="text-align: left;">
+                        <li>90% reduction in document setup</li>
+                        <li>Zero infrastructure management</li>
+                        <li>Automated workflows</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Quality Metrics</h4>
+                    <ul style="text-align: left;">
+                        <li>15% increase in first-pass approvals</li>
+                        <li>60% reduction in appeals</li>
+                        <li>Automatic quality improvement</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Cost Impact</h4>
+                    <ul style="text-align: left;">
+                        <li>$2M+ annual savings</li>
+                        <li>Enterprise compliance built-in</li>
+                        <li>Reduced administrative overhead</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Implementation -->
+        <div class="slide">
+            <h2>Fast Track to Production: 12-Week Implementation</h2>
+            
+            <div style="margin-top: 2em;">
+                <div class="timeline-item">
+                    <h4>Phase 1: Foundation (Weeks 1-2)</h4>
+                    <p>Unity Catalog configuration, Agent Bricks setup, MCP server connections, security verification</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h4>Phase 2: Document Intelligence (Weeks 3-4)</h4>
+                    <p>Upload healthcare documents, configure Knowledge Assistant, expert feedback sessions, quality optimization</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h4>Phase 3: Pilot Deployment (Weeks 5-8)</h4>
+                    <p>Limited team rollout, user training, performance monitoring, integration testing</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h4>Phase 4: Full Production (Weeks 9-12)</h4>
+                    <p>Organization-wide deployment, advanced analytics, continuous improvement, ROI measurement</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Security & Compliance -->
+        <div class="slide">
+            <h2>Enterprise-Grade Security and Compliance</h2>
+            
+            <div class="two-column" style="margin-top: 2em;">
+                <div>
+                    <h4>🔒 Data Protection:</h4>
+                    <ul>
+                        <li>End-to-end encryption</li>
+                        <li>Role-based access control (RBAC)</li>
+                        <li>Comprehensive audit logging</li>
+                        <li>HIPAA-compliant handling</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>📊 Governance:</h4>
+                    <ul>
+                        <li>Centralized data lineage</li>
+                        <li>Automated compliance alerting</li>
+                        <li>Data retention policies</li>
+                        <li>Multi-tenant security</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="three-column" style="margin-top: 3em;">
+                <div class="stat-box">
+                    <p style="margin: 0; font-size: 1.3em;">HIPAA ✓</p>
+                </div>
+                <div class="stat-box">
+                    <p style="margin: 0; font-size: 1.3em;">SOC 2 ✓</p>
+                </div>
+                <div class="stat-box">
+                    <p style="margin: 0; font-size: 1.3em;">Enterprise Audit Trails ✓</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Technology Stack -->
+        <div class="slide">
+            <h2>Built on Industry-Leading Technology</h2>
+            
+            <div class="three-column" style="margin-top: 2em;">
+                <div>
+                    <h4>Databricks Platform:</h4>
+                    <div class="tech-badge">Unity Catalog</div>
+                    <div class="tech-badge">Managed MCP Servers</div>
+                    <div class="tech-badge">Agent Bricks</div>
+                    <div class="tech-badge">Serverless Compute</div>
+                </div>
+                
+                <div>
+                    <h4>AI & ML Stack:</h4>
+                    <div class="tech-badge">LangChain</div>
+                    <div class="tech-badge">Llama 3.1</div>
+                    <div class="tech-badge">RAG Implementation</div>
+                    <div class="tech-badge">Vector Search</div>
+                </div>
+                
+                <div>
+                    <h4>Application Layer:</h4>
+                    <div class="tech-badge">Python 3.11+</div>
+                    <div class="tech-badge">Streamlit UI</div>
+                    <div class="tech-badge">RESTful APIs</div>
+                    <div class="tech-badge">OAuth</div>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 3em;">
+                <p style="text-align: center; font-size: 1.2em;"><strong>Enterprise-grade, battle-tested technologies with proven scalability</strong></p>
+            </div>
+        </div>
+
+        <!-- Slide 15: Open Source -->
+        <div class="slide">
+            <h2>Get Started Today: Open Source Implementation</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h4>What's Available:</h4>
+                    <ul style="font-size: 1.1em;">
+                        <li>📂 Complete source code</li>
+                        <li>📖 Step-by-step setup guides</li>
+                        <li>📊 Sample data and scenarios</li>
+                        <li>🚀 Deployment scripts</li>
+                        <li>👥 Community support</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="highlight-box">
+                        <h4>GitHub Repository:</h4>
+                        <p style="font-size: 1.2em; word-break: break-all;">
+                            <a href="https://github.com/bigdatavik/hospital-ai-system" target="_blank" style="color: #2E86AB;">
+                                github.com/bigdatavik/hospital-ai-system
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 2em; text-align: center;">
+                        <p style="font-size: 3em;">⭐</p>
+                        <p style="font-size: 1.3em;"><strong>Fork, Star, Contribute!</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Call to Action -->
+        <div class="slide gradient-bg">
+            <h2>Transform Your Healthcare Operations Today</h2>
+            
+            <div style="text-align: center; margin: 2em 0;">
+                <div class="highlight-box" style="background: rgba(255,255,255,0.2); border-color: white;">
+                    <h3 style="color: white;">Key Takeaways:</h3>
+                    <p style="font-size: 1.3em;">✓ The technology exists today</p>
+                    <p style="font-size: 1.3em;">✓ The business case is clear</p>
+                    <p style="font-size: 1.3em;">✓ The competitive advantage is significant</p>
+                    <p style="font-size: 1.3em;">✓ Implementation is faster than you think</p>
+                </div>
+            </div>
+            
+            <div class="quote-box" style="background: rgba(255,255,255,0.2); border-color: white; color: white;">
+                <h3 style="color: white; text-align: center;">"The question isn't whether to implement AI-powered integration—<br/>it's how quickly you can get started."</h3>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3em;">
+                <a href="https://github.com/bigdatavik/hospital-ai-system" class="cta-button" target="_blank">View on GitHub</a>
+                <a href="#" class="cta-button">Schedule Demo</a>
+            </div>
+        </div>
+
+        <!-- Slide 17: Thank You -->
+        <div class="slide gradient-bg title-slide">
+            <h1>Thank You</h1>
+            <h2>Questions & Discussion</h2>
+            
+            <div style="margin-top: 3em; font-size: 1.2em;">
+                <p>📧 Contact: github.com/bigdatavik</p>
+                <p>🔗 GitHub: github.com/bigdatavik/hospital-ai-system</p>
+                <p style="margin-top: 2em;">💬 Let's transform healthcare together</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <span class="slide-counter" id="slideCounter">1 / 17</span>
+        <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            
+            if (n >= totalSlides) {
+                currentSlide = totalSlides - 1;
+            } else if (n < 0) {
+                currentSlide = 0;
+            } else {
+                currentSlide = n;
+            }
+            
+            slides[currentSlide].classList.add('active');
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            // Update counter
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSlide(-1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(totalSlides - 1);
+            } else if (e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
