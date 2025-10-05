@@ -53,7 +53,7 @@ Instead of customer service reps spending 40-60% of their time searching across 
 ## 🚀 **Open Source & Community:**
 
 The complete Healthcare Payor AI System is available as an open-source project:
-👉 **GitHub:** https://github.com/bigdatavik/hospital-ai-system
+👉 **GitHub:** [https://github.com/bigdatavik/hospital-ai-system](https://github.com/bigdatavik/healthcare-payor-ai-mcp)
 
 ## 📈 **Future Roadmap:**
 
