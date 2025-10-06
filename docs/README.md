@@ -267,14 +267,10 @@ Before running the Healthcare Payor AI System, you need to set up the initial ca
    ```
 
    **Knowledge Source Files:**
-   - **`member_benefits.txt`** - Member benefit plans, coverage details, and eligibility requirements
-   - **`claims_processing.txt`** - Claims processing procedures, approval workflows, and denial reasons
-   - **`provider_network.txt`** - Provider directory information, specialties, and network coverage
-   - **`medical_coding.txt`** - ICD-10 codes, CPT codes, and medical terminology reference
-   - **`policy_guidelines.txt`** - Healthcare policies, compliance requirements, and operational procedures
-   - **`faq_common_questions.txt`** - Frequently asked questions and standard responses
-   - **`coverage_limits.txt`** - Coverage limits, deductibles, copayments, and out-of-pocket maximums
-   - **`prior_authorization.txt`** - Prior authorization requirements and procedures
+   - **`agent_knowledge_source_guide.txt`** - Quick reference guide for AI agents describing knowledge sources, their contents, and cross-reference capabilities between customer service and authorization data
+  - **`customer_service_communications.txt`** - Member service interactions including phone transcripts, chat logs, and emails covering billing issues, coverage questions, prescription concerns, provider searches, and satisfaction scores
+  - **`knowledge_source_descriptions.txt`** - Comprehensive documentation of knowledge sources detailing content types, use cases, key entities, clinical insights, and member journey analysis patterns
+  - **`prior_authorization_documents.txt`** - Medical authorization requests with clinical documentation, CPT/ICD-10 codes, medical necessity justifications, provider information, and approval/denial decisions with detailed reasoning
 
    **Step 2: Create Knowledge Assistant Agent**
    ```bash
